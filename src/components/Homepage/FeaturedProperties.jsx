@@ -3,60 +3,60 @@ import React from 'react';
 const properties = [
   {
     id: 1,
-    name: 'Sunny Apartment',
-    image: '/assets/property1.jpg',
+    name: 'Dallas',
+    image: 'Dallas.jpg',
     description: 'A beautiful apartment with lots of natural light, close to the university.',
-    price: '$450/month',
+    price: 'R2000/month',
     gender: 'Any',
     furnished: true,
     location: 'Downtown',
   },
   {
     id: 2,
-    name: 'Cozy Studio',
-    image: '/assets/property2.jpg',
+    name: 'Kingsrow',
+    image: 'Kingsrow.jpg',
     description: 'A small and cozy studio perfect for solo students.',
-    price: '$300/month',
+    price: 'R2500/month',
     gender: 'Female',
     furnished: false,
     location: 'Near University',
   },
   {
     id: 3,
-    name: 'Shared House',
-    image: '/assets/property3.jpg',
+    name: 'Nassau',
+    image: 'Nassau.jpg',
     description: 'A shared house with a friendly atmosphere, close to public transport.',
-    price: '$200/month',
+    price: 'R2200/month',
     gender: 'Male',
     furnished: true,
     location: 'Suburb',
   },
   {
     id: 4,
-    name: 'Luxury Condo',
-    image: '/assets/property4.jpg',
+    name: 'Monaco',
+    image: 'Monaco.jpg',
     description: 'A luxury condo with great amenities, ideal for students looking for comfort.',
-    price: '$700/month',
+    price: 'R3000/month',
     gender: 'Any',
     furnished: true,
     location: 'City Center',
   },
   {
     id: 5,
-    name: 'Affordable Dorm',
-    image: '/assets/property5.jpg',
+    name: 'San Marino',
+    image: 'san-marino.jpg',
     description: 'A dormitory with affordable prices, ideal for students on a budget.',
-    price: '$150/month',
+    price: 'R1150/month',
     gender: 'Any',
     furnished: false,
     location: 'Campus',
   },
   {
     id: 6,
-    name: 'Modern Loft',
-    image: '/assets/property6.jpg',
+    name: 'Arebeng',
+    image: 'Arebeng2.jpg',
     description: 'A modern loft with open space, perfect for creative students.',
-    price: '$550/month',
+    price: 'R550/month',
     gender: 'Female',
     furnished: true,
     location: 'Midtown',
@@ -67,7 +67,7 @@ const FeaturedProperties = () => {
   return (
     <section className="py-8">
       <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-semibold text-center mb-6">Featured Properties</h2>
+        <h2 className="text-2xl text-white font-semibold text-center mb-6">Featured Properties</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
             <div key={property.id} className="bg-white shadow-md rounded-lg overflow-hidden">
