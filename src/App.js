@@ -18,7 +18,7 @@ const App = () => {
         <Route path="/" element={<HomeLayout />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
         <Route
-            path="/admin/properties"
+            path="/admin"
             element={<LandlordProperties adminEmail={adminEmail} />}/>
         </Routes>
       <Footer/>
