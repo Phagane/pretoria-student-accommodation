@@ -1,16 +1,22 @@
 import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+
 import Header from './components/Layouts/Header';
 import Footer from './components/Layouts/Footer';
 import HomeLayout from './components/Homepage/HomeLayout';
+import PropertyDetails from './components/Homepage/PropertyDetails';
 
-function App() {
+const App = () => {
   return (
-    <div>
+    <Router>
       <Header/>
-      <HomeLayout/>
+      <Routes>
+        <Route path="/" element={<HomeLayout />} />
+        <Route path="/property/:id" element={<PropertyDetails />} />
+      </Routes>
       <Footer/>
-    </div>
+    </Router>
   );
-}
+};
 
 export default App;
