@@ -25,7 +25,7 @@ const ApplyForAccommodationForm = ({ onClose }) => {
     Funding Type: ${fundingType}, 
     Room Type: ${roomType.join(', ')}`);
     
-    onClose(); // Close the modal after submitting the form
+    onClose(); 
   };
 
   return (

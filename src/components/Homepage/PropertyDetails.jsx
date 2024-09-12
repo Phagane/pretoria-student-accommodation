@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import properties from '../../data/properties.json';
 import LandLordDetails from './LandlordDetails';
-import ViewingRequestForm from './ViewingRequestForm'; // Import the new form component
+import ViewingRequestForm from './ViewingRequestForm'; 
 import ApplyForAccommodationForm from './ApplyForAccommodationForm';
 
 const PropertyDetails = () => {
@@ -10,8 +10,8 @@ const PropertyDetails = () => {
   const property = properties.find((p) => p.id === parseInt(id));
 
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showViewingForm, setShowViewingForm] = useState(false); // State to control form visibility
-  const [showApplicationForm, setShowApplicationForm] = useState(false); // State to control application form visibility
+  const [showViewingForm, setShowViewingForm] = useState(false); 
+  const [showApplicationForm, setShowApplicationForm] = useState(false); 
 
   if (!property) {
     return <p className="text-center text-red-500">Property not found.</p>;
@@ -34,22 +34,20 @@ const PropertyDetails = () => {
   };
 
   const toggleViewingForm = () => {
-    setShowViewingForm((prevShow) => !prevShow); // Toggle form visibility
+    setShowViewingForm((prevShow) => !prevShow); 
   };
 
   const toggleApplicationForm = () => {
-    setShowApplicationForm((prevShow) => !prevShow); // Toggle application form visibility
+    setShowApplicationForm((prevShow) => !prevShow);
   };
 
   return (
     <div className="relative container mx-auto px-4 py-8">
-      {/* Modal for Viewing Request Form */}
       {showViewingForm && (
         <ViewingRequestForm onClose={toggleViewingForm} />
       )}
       {showApplicationForm && <ApplyForAccommodationForm onClose={toggleApplicationForm} />}
 
-      {/* Property Details */}
       <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-1">
         <div className="relative">
           <img
@@ -87,7 +85,6 @@ const PropertyDetails = () => {
           >
             Apply For Accommodation
           </button>
-          {/* Button to toggle viewing request form */}
           <button
             onClick={toggleViewingForm}
             className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"

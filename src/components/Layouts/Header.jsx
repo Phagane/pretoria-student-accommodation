@@ -4,7 +4,6 @@ const Header = () => {
   return (
     <header className="bg-white shadow-md">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
-        {/* Logo */}
         <div className="flex items-center">
           <img
             src="./real-estate-logo.png"
@@ -14,7 +13,6 @@ const Header = () => {
           <a href="/"className="font-semibold text-xl text-gray-800">Pretoria Student Accommodations</a>
         </div>
         
-        {/* Navigation Links */}
         <nav className="flex items-center space-x-6">
           <a href="/properties" className="text-gray-600 hover:text-gray-800">
             Properties
