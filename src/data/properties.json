@@ -1,0 +1,69 @@
+[
+    {
+      "id": 1,
+      "name": "Dallas",
+      "image": "/images/Dallas.jpg",
+      "description": "A beautiful apartment with lots of natural light, close to the university.",
+      "price": "R450/month",
+      "gender": "Any",
+      "furnished": true,
+      "location": "Downtown",
+      "details": "This sunny apartment is perfect for students who want a bright and comfortable living space with easy access to public transport and local amenities."
+    },
+    {
+      "id": 2,
+      "name": "Kingsrow",
+      "image": "/images/Kingsrow.jpg",
+      "description": "A compact and affordable studio apartment for a single student.",
+      "price": "R4000/month",
+      "gender": "Female",
+      "furnished": false,
+      "location": "West End",
+      "details": "A cozy studio located in a quiet neighborhood, perfect for female students who want privacy and peace."
+    },
+    {
+      "id": 3,
+      "name": "Nassau",
+      "image": "/images/Nassau.jpg",
+      "description": "A large shared house with separate rooms available for rent.",
+      "price": "R4200/month",
+      "gender": "Male",
+      "furnished": true,
+      "location": "East Side",
+      "details": "A spacious shared house with fully furnished rooms and communal areas. Ideal for male students looking to save on rent."
+    },
+    {
+      "id": 4,
+      "name": "Monaco",
+      "image": "/images/Monaco.jpg",
+      "description": "A stylish condo with modern amenities, perfect for young professionals.",
+      "price": "R3000/month",
+      "gender": "Any",
+      "furnished": true,
+      "location": "City Center",
+      "details": "A newly renovated condo with top-notch facilities, including a gym and swimming pool. Suitable for anyone looking for comfort and convenience."
+    },
+    {
+      "id": 5,
+      "name": "San Marino",
+      "image": "/images/san-marino.jpg",
+      "description": "An affordable room in a shared apartment, close to campus.",
+      "price": "R2250/month",
+      "gender": "Any",
+      "furnished": false,
+      "location": "North Campus",
+      "details": "A no-frills room for budget-conscious students, with easy access to campus facilities and public transportation."
+    },
+    {
+      "id": 6,
+      "name": "Arebeng",
+      "image": "/images/Arebeng2.jpg",
+      "description": "A luxurious villa for those who want to live in style.",
+      "price": "R2000/month",
+      "gender": "Any",
+      "furnished": true,
+      "location": "Green Hills",
+      "details": "This luxury villa offers unparalleled comfort and privacy, with stunning views and high-end finishes. Ideal for those who want the best of student living."
+    }
+  ]
+  

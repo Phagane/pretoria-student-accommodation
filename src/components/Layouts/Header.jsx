@@ -1,5 +1,3 @@
-// src/components/layout/Header.js
-
 import React from 'react';
 
 const Header = () => {
@@ -11,7 +9,7 @@ const Header = () => {
           <img
             src="./logo3final.png"
             alt="App Logo"
-            className="h-40 w-40 mr-2"
+            className="h-20 w-20 mr-2"
           />
           <span className="font-semibold text-xl text-gray-800">Pretoria Student Accommodations</span>
         </div>
