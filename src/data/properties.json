@@ -10,7 +10,7 @@
       "location": "Downtown",
       "details": "This sunny apartment is perfect for students who want a bright and comfortable living space with easy access to public transport and local amenities.",
       "agent": {
-        "name": "John Doe Real Estate",
+        "name": "Masondo Accommodation",
         "email": "contact@johndoerealestate.com",
         "phone": "+1234567890",
         "agentImage": "/images/Nassau.jpg"
@@ -27,7 +27,7 @@
       "location": "West End",
       "details": "A cozy studio located in a quiet neighborhood, perfect for female students who want privacy and peace.",
       "agent": {
-        "name": "John Doe Real Estate",
+        "name": "Masondo Accommodation",
         "email": "contact@johndoerealestate.com",
         "phone": "+1234567890",
         "agentImage": "/images/Nassau.jpg"
@@ -48,7 +48,7 @@
       "location": "East Side",
       "details": "A spacious shared house with fully furnished rooms and communal areas. Ideal for male students looking to save on rent.",
       "agent": {
-        "name": "John Doe Real Estate",
+        "name": "Masondo Accommodation",
         "email": "contact@johndoerealestate.com",
         "phone": "+1234567890",
         "agentImage": "/images/Nassau.jpg"
@@ -69,7 +69,7 @@
       "location": "City Center",
       "details": "A newly renovated condo with top-notch facilities, including a gym and swimming pool. Suitable for anyone looking for comfort and convenience.",
       "agent": {
-        "name": "John Doe Real Estate",
+        "name": "Masondo Accommodation",
         "email": "contact@johndoerealestate.com",
         "phone": "+1234567890",
         "agentImage": "/images/Monaco.jpg"
@@ -86,7 +86,7 @@
       "location": "North Campus",
       "details": "A no-frills room for budget-conscious students, with easy access to campus facilities and public transportation.",
       "agent": {
-        "name": "John Doe Real Estate",
+        "name": "Masondo Accommodation",
         "email": "contact@johndoerealestate.com",
         "phone": "+1234567890",
         "agentImage": "/images/Nassau.jpg"
@@ -103,7 +103,7 @@
       "location": "Green Hills",
       "details": "This luxury villa offers unparalleled comfort and privacy, with stunning views and high-end finishes. Ideal for those who want the best of student living.",
       "agent": {
-        "name": "John Doe Real Estate",
+        "name": "Masondo Accommodation",
         "email": "contact@johndoerealestate.com",
         "phone": "+1234567890",
         "agentImage": "/images/Nassau.jpg"
