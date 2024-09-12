@@ -7,7 +7,7 @@ const ViewingRequestForm = ({ onClose }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(`Viewing requested on ${date} at ${time}`);
-    onClose(); // Close the modal after submitting the form
+    onClose(); 
   };
 
   return (

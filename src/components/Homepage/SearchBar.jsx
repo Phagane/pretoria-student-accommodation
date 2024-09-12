@@ -1,5 +1,3 @@
-// src/components/accommodation/SearchBar.js
-
 import React, { useState } from 'react';
 
 const SearchBar = () => {

@@ -5,15 +5,22 @@ import Header from './components/Layouts/Header';
 import Footer from './components/Layouts/Footer';
 import HomeLayout from './components/Homepage/HomeLayout';
 import PropertyDetails from './components/Homepage/PropertyDetails';
+import LandlordProperties from './components/Admin/LandlordProperties';
 
 const App = () => {
+  const adminEmail = 'contact@johndoerealestate.com'; // Specify the admin email here
+
+
   return (
     <Router>
       <Header/>
       <Routes>
         <Route path="/" element={<HomeLayout />} />
         <Route path="/property/:id" element={<PropertyDetails />} />
-      </Routes>
+        <Route
+            path="/admin/properties"
+            element={<LandlordProperties adminEmail={adminEmail} />}/>
+        </Routes>
       <Footer/>
     </Router>
   );
