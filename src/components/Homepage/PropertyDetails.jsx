@@ -1,55 +1,68 @@
 import React, { useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import properties from '../../data/properties.json'; 
+import { useParams } from 'react-router-dom';
+import properties from '../../data/properties.json';
 import LandLordDetails from './LandlordDetails';
+import ViewingRequestForm from './ViewingRequestForm'; // Import the new form component
+import ApplyForAccommodationForm from './ApplyForAccommodationForm';
 
 const PropertyDetails = () => {
   const { id } = useParams();
   const property = properties.find((p) => p.id === parseInt(id));
 
-  const [currentImageIndex, setCurrentImageIndex] = useState(0); // State to keep track of current image
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showViewingForm, setShowViewingForm] = useState(false); // State to control form visibility
+  const [showApplicationForm, setShowApplicationForm] = useState(false); // State to control application form visibility
 
   if (!property) {
     return <p className="text-center text-red-500">Property not found.</p>;
   }
 
-  // Array of all property images
   const images = [
     property.image,
     property.image2,
     property.image3,
     property.image4,
-    property.image5
+    property.image5,
   ];
 
-  // Handle next image
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
-  // Handle previous image
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
+  const toggleViewingForm = () => {
+    setShowViewingForm((prevShow) => !prevShow); // Toggle form visibility
+  };
+
+  const toggleApplicationForm = () => {
+    setShowApplicationForm((prevShow) => !prevShow); // Toggle application form visibility
+  };
+
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="relative container mx-auto px-4 py-8">
+      {/* Modal for Viewing Request Form */}
+      {showViewingForm && (
+        <ViewingRequestForm onClose={toggleViewingForm} />
+      )}
+      {showApplicationForm && <ApplyForAccommodationForm onClose={toggleApplicationForm} />}
+
+      {/* Property Details */}
       <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-1">
-        {/* Slideshow */}
         <div className="relative">
           <img
             src={images[currentImageIndex]}
             alt={`${property.name} - ${currentImageIndex + 1}`}
             className="w-full h-80 object-cover"
           />
-          {/* Previous Button */}
           <button
             onClick={handlePrevImage}
             className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
           >
             &#8249;
           </button>
-          {/* Next Button */}
           <button
             onClick={handleNextImage}
             className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
@@ -68,20 +81,22 @@ const PropertyDetails = () => {
           <p className="text-gray-500 mb-2">Furnished: {property.furnished ? 'Yes' : 'No'}</p>
           <p className="text-gray-500 mb-2">Location: {property.location}</p>
 
-          <Link to={`/property/${property.id}`}>
-            <button className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2">
-              Apply for Accommodation
-            </button>
-          </Link>
-          <Link to={`/property/${property.id}`}>
-            <button className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2">
-              Request to View
-            </button>
-          </Link>
+          <button
+            onClick={toggleApplicationForm}
+            className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"
+          >
+            Apply For Accommodation
+          </button>
+          {/* Button to toggle viewing request form */}
+          <button
+            onClick={toggleViewingForm}
+            className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"
+          >
+            Request to View
+          </button>
         </div>
       </div>
       <LandLordDetails agent={property.agent} />
-
     </div>
   );
 };
