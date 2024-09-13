@@ -37,14 +37,14 @@ const ManageAccommodation = ({ propertyId, onClose }) => {
   return (
     <div className="relative container mx-auto px-4 py-4">
       {isUpdateOpen && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="rounded-lg absolute inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <UpdateAccommodation propertyId={propertyId} onClose={() => setIsUpdateOpen(false)} />
           </div>
         </div>
       )}
       {isAddTenantOpen && (
-        <div className="absolute inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="rounded-lg absolute inset-0 bg-black bg-opacity-20 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg shadow-md">
             <AddNewTenant onClose={() => setIsAddTenantOpen(false)} onAddTenant={handleAddTenant} />
           </div>
