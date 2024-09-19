@@ -20,12 +20,6 @@ const TenantPropertyDetails = ({ tenantId }) => {
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg">
-      <h2 className="text-xl font-semibold mb-4">Accommodation Details</h2>
-      <p><strong>Accommodation Name:</strong> {property.name}</p>
-      <p><strong>Location:</strong> {property.location}</p>
-      <p><strong>Price:</strong> {property.price}</p>
-      <p><strong>Furnished:</strong> {property.furnished ? 'Yes' : 'No'}</p>
-
       <h2 className="text-xl font-semibold mt-6 mb-4">Your Details</h2>
       <p><strong>Name:</strong> {tenant.name}</p>
       <p><strong>Email:</strong> {tenant.email}</p>
@@ -33,7 +27,7 @@ const TenantPropertyDetails = ({ tenantId }) => {
 
       <button
         onClick={() => setIsEditing(true)}
-        className="mt-4 bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        className="mt-4 bg-blue-600 text-white py-2 mb-1 px-4 rounded hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
       >
         Update
       </button>
@@ -45,6 +39,11 @@ const TenantPropertyDetails = ({ tenantId }) => {
           onCancel={() => setIsEditing(false)}
         />
       )}
+      <h2 className="text-xl font-semibold mb-4">Accommodation Details</h2>
+      <p><strong>Accommodation Name:</strong> {property.name}</p>
+      <p><strong>Location:</strong> {property.location}</p>
+      <p><strong>Price:</strong> {property.price}</p>
+      <p><strong>Furnished:</strong> {property.furnished ? 'Yes' : 'No'}</p>
 
       <h2 className="text-xl font-semibold mt-6 mb-4">Lease Details</h2>
       <p><strong>Room Number:</strong> {tenant.roomNumber}</p>
