@@ -71,3 +71,45 @@ Pretoria Student Accommodation Team`
         console.log(err.message)
     }    
 }
+
+exports.signIn = async (req, res)=>{
+    const {email, password} = req.body
+    
+    try{
+
+        const user = await User.findOne({email})
+
+        if(!user){
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Invalid email or password'
+            })
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password)
+        if(!isMatch){
+            return res.status(400).json({
+                status: 'fail',
+                message: 'Invalid email or password'
+            })
+        }
+
+        const payload = {
+            id: user._id,
+            email: user.email,
+          }
+        const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:'1h'})
+        
+        res.status(200).json({
+            status: 'success',
+            token,
+        })
+
+    }catch(err){
+        console.log(err)
+        return res.status(500).json({
+            status: 'fail',
+            message: 'Server error'
+        })
+    }
+}
