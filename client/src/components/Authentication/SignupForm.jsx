@@ -1,24 +1,69 @@
 import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const SignupForm = () => {
-  const [userType, setUserType] = useState('tenant');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [role, setRole] = useState('tenant');
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
+  const navigate = useNavigate()
 
   const handleUserTypeChange = (event) => {
-    setUserType(event.target.value);
+    setRole(event.target.value);
+  };
+
+  const handleSignup = async (event) => {
+    event.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/api/v1/auth/signup', {
+        name,
+        email,
+        password,
+        confirmPassword,
+        role,
+      });
+
+      if (response.data.status === 'success') {
+        setSuccessMessage('Signup successful! You can now log in.');
+        setError('');
+        navigate('/signin');
+
+      } else {
+        setError('Signup failed');
+      }
+    } catch (err) {
+      setError('An error occurred during signup. Please try again.');
+      console.error(err);
+    }
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-lg p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">Sign Up</h2>
-        <form className="space-y-6">
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        {successMessage && <p className="text-green-500 text-center">{successMessage}</p>}
+        <form className="space-y-6" onSubmit={handleSignup}>
           <div>
             <label htmlFor="name" className="block text-sm font-medium text-gray-600">Name</label>
             <input
               type="text"
               id="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your name"
+              required
             />
           </div>
           <div>
@@ -26,8 +71,11 @@ const SignupForm = () => {
             <input
               type="email"
               id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your email"
+              required
             />
           </div>
           <div>
@@ -35,24 +83,30 @@ const SignupForm = () => {
             <input
               type="password"
               id="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter password"
+              required
             />
           </div>
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-600">Confirm Password</label>
+            <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-600">Confirm Password</label>
             <input
               type="password"
               id="confirmPassword"
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Confirm password"
+              required
             />
           </div>
           <div>
-            <label htmlFor="userType" className="block text-sm font-medium text-gray-600">Sign Up As</label>
+            <label htmlFor="role" className="block text-sm font-medium text-gray-600">Sign Up As</label>
             <select
-              id="userType"
-              value={userType}
+              id="role"
+              value={role}
               onChange={handleUserTypeChange}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
             >

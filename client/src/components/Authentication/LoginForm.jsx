@@ -1,16 +1,49 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate} from 'react-router-dom';
+import axios from 'axios';
 
 const LoginForm = () => {
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleSignIn = async (e) => {
+    e.preventDefault()
+
+    try {
+
+      const response = await axios.post('http://127.0.0.1:8000/api/v1/auth/sign-in', {
+        email,
+        password,
+      });
+      localStorage.setItem('token', response.data.token);
+
+
+      if (response.data.status === 'success') {
+        navigate('/');
+      } else {
+        setError(response.data.message);
+      }
+    } catch (err) {
+      console.error(err);
+      setError('Wrong username or password');
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
         <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
-        <form className="space-y-6">
+        <form onSubmit={handleSignIn} className="space-y-6">
           <div>
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
             <input
               type="email"
               id="email"
+              value = {email}
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your email"
             />
@@ -20,6 +53,8 @@ const LoginForm = () => {
             <input
               type="password"
               id="password"
+              value = {password}
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your password"
             />
