@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
+const authRouter = require('./routes/authRouter')
 
 dotenv.config({path: './config/config.env'})
 const app = express()
@@ -35,6 +36,8 @@ app.get('/', (req, res)=>{
     })
 })
 app.options('*', cors())
+app.use('/api/v1/auth', authRouter)
+
 
 const port = process.env.PORT
 
