@@ -1,10 +1,19 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+
+  
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/signin');
   };
 
   return (
@@ -65,6 +74,9 @@ const Header = () => {
           <a href="/signin" className="text-gray-600 hover:text-gray-800">
             Login
           </a>
+          <a href="/signin" onClick={handleLogout} className="text-gray-600 hover:text-gray-800">
+            Logout
+          </a>
         </nav>
 
         {/* Mobile Menu */}
@@ -97,6 +109,9 @@ const Header = () => {
             <a href="/signin" className="text-gray-600 hover:text-gray-800">
               Login
             </a>
+            <a href="/signin" onClick={handleLogout} className="text-gray-600 hover:text-gray-800">
+            Logout
+          </a>
           </nav>
         )}
       </div>

@@ -1,58 +1,78 @@
-// LandlordProperties.js
-import React, { useState } from 'react';
-import properties from '../../data/properties.json'; 
-import ManageAccommodation from './ManageAccommodation'; 
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import AddPropertyForm from './AddNewProperty';
+import PropertyCard from './PropertyCard'; 
 
-const LandlordProperties = ({ adminEmail }) => {
-  const [selectedPropertyId, setSelectedPropertyId] = useState(null);
+const LandlordProperties = () => {
+  const [properties, setProperties] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [showAddPropertyForm, setShowAddPropertyForm] = useState(false);
 
-  const filteredProperties = properties.filter(
-    (property) => property.agent.email === adminEmail
-  );
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        const token = localStorage.getItem('token');
 
-  const handleManageClick = (propertyId) => {
-    setSelectedPropertyId(propertyId);
+        const response = await axios.get('http://127.0.0.1:8000/api/v1/landlord/properties', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setProperties(response.data.properties); 
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setError('Error loading properties');
+        setLoading(false); 
+      }
+    };
+
+    fetchProperties();
+  }, []);
+
+  const handleAddNewPropertyClick = () => {
+    setShowAddPropertyForm(true);
   };
 
-  const handleCloseManage = () => {
-    setSelectedPropertyId(null);
+  const handleAddPropertyCancel = () => {
+    setShowAddPropertyForm(false);
   };
+
+  const handleAddPropertySubmit = (newProperty) => {
+    setProperties([...properties, newProperty]); 
+    setShowAddPropertyForm(false); 
+  };
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
       <h2 className="text-2xl font-semibold text-center mb-6">Manage Your Properties</h2>
+      <button
+        className="bg-violet-700 my-2 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2"
+        onClick={handleAddNewPropertyClick}
+      >
+        Add New Property
+      </button>
 
-      {selectedPropertyId ? (
-        <ManageAccommodation propertyId={selectedPropertyId} onClose={handleCloseManage} />
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredProperties.map((property) => (
-            <div
-              key={property.id}
-              className="bg-white shadow-md rounded-lg overflow-hidden"
-            >
-              <img
-                src={property.image}
-                alt={property.name}
-                className="w-full h-48 object-cover"
-              />
-              <div className="p-4">
-                <h2 className="text-xl font-semibold">{property.name}</h2>
-                <p className="text-gray-600 mb-2">{property.description}</p>
-                <p className="font-bold mb-2">Price: {property.price}</p>
-                <p className="text-gray-500 mb-2">Location: {property.location}</p>
-                <p className="text-gray-500 mb-2">Furnished: {property.furnished ? 'Yes' : 'No'}</p>
-                <button
-                  className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2"
-                  onClick={() => handleManageClick(property.id)}
-                >
-                  Manage
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+      {showAddPropertyForm && (
+        <AddPropertyForm 
+        onSubmit={handleAddPropertySubmit} 
+        onCancel={handleAddPropertyCancel} />
       )}
+
+      <div className="mt-6">
+        {properties.length > 0 ? (
+          properties.map((property) => (
+            <PropertyCard key={property.id} property={property} /> 
+          ))
+        ) : (
+          <p className="text-center">No properties found. Add your first property!</p>
+        )}
+      </div>
     </div>
   );
 };

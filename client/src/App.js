@@ -8,14 +8,14 @@ import LandlordProperties from './components/Admin/LandlordProperties';
 import LoginForm from './components/Authentication/LoginForm';
 import SignupForm from './components/Authentication/SignupForm';
 import TenantDashboard from './components/Tenant/TenantDashboard';
+import ProtectedRoute from './components/Protect/ProtectedRoute';
 
 const App = () => {
-  const adminEmail = 'contact@johndoerealestate.com'; // Admin email
+  const adminEmail = 'matlakala.rp@gmail.com'; // Admin email
   const exampleTenantId = 1; // Tenant email
   const location = useLocation();
   const isExcludedPage = ['/signin', '/signup'].includes(location.pathname);
   
-
   return (
     <div className='app'>
       {!isExcludedPage && <Header />}
@@ -23,14 +23,14 @@ const App = () => {
         <Routes>
           <Route path="/" element={<HomeLayout />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
-          <Route
-            path="/admin"
-            element={<LandlordProperties adminEmail={adminEmail} />}
-          />
-          <Route
-            path="/tenant-dashboard"
-            element={<TenantDashboard tenantId={exampleTenantId} />}
-          />
+          <Route 
+            path="/properties" 
+            element={<ProtectedRoute><LandlordProperties/>
+          </ProtectedRoute>} />
+          <Route 
+            path="/tenant-dashboard" 
+            element={<ProtectedRoute><TenantDashboard tenantId={exampleTenantId} />
+          </ProtectedRoute>} />
           <Route path='/signin' element={<LoginForm />} />
           <Route path='/signup' element={<SignupForm />} />
         </Routes>
