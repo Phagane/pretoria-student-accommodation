@@ -1,5 +1,24 @@
-// models/Property.js
 const mongoose = require('mongoose');
+
+const tenantSchema = new mongoose.Schema({
+  name: {
+    type: String,
+  },
+  email: {
+    type: String,
+  },
+  phone: {
+    type: String,
+  },
+  roomNumber: {
+    type: String,
+  },
+  roomType: {
+    type: String,
+    enum: ['single', 'sharing'],
+    default: 'sharing',
+  },
+});
 
 const propertySchema = new mongoose.Schema({
   name: {
@@ -32,7 +51,8 @@ const propertySchema = new mongoose.Schema({
       required: true,
     },
   },
-  image: String, // URL to the property's image
+  image: String, 
+  tenants: [tenantSchema],
 });
 
 module.exports = mongoose.model('Property', propertySchema);

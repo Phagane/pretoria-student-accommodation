@@ -1,4 +1,3 @@
-// UpdatePropertyForm.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -29,8 +28,8 @@ const UpdatePropertyForm = ({ propertyId, initialData, onClose, onUpdate }) => {
           },
         }
       );
-      onUpdate(response.data.updatedProperty); // Call onUpdate to pass the updated data back
-      onClose(); // Close the form after submission
+      onUpdate(response.data.updatedProperty); 
+      onClose();
     } catch (err) {
       console.error('Error updating property:', err);
     }
@@ -51,7 +50,7 @@ const UpdatePropertyForm = ({ propertyId, initialData, onClose, onUpdate }) => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              className="shadow appearance-none border rounded mr-40 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
 

@@ -108,3 +108,83 @@ exports.getLandlordProperties = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
+
+exports.addTenant = async (req, res) => {
+  const { propertyId } = req.params; 
+  const { name, email, phone, roomNumber, roomType } = req.body; 
+
+  try {
+    
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+      return res.status(404).json({ message: 'Property not found' });
+    }
+
+    const newTenant = {
+      name,
+      email,
+      phone,
+      roomNumber,
+      roomType,
+    };
+
+    property.tenants.push(newTenant);
+
+    await property.save();
+
+    res.status(201).json({
+      message: 'Tenant added successfully',
+      tenant: newTenant,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+exports.getTenants = async (req, res) => {
+  const { propertyId } = req.params; 
+
+  try {
+
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+      return res.status(404).json({ message: 'Property not found' });
+    }
+
+    const tenants = property.tenants;
+
+    res.status(200).json({ tenants });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+exports.deleteTenant = async (req, res) => {
+  try {
+    const { propertyId, tenantId } = req.params;
+
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({ message: 'Property not found' });
+    }
+
+
+    const tenantIndex = property.tenants.findIndex(tenant => tenant._id.toString() === tenantId);
+    if (tenantIndex === -1) {
+      return res.status(404).json({ message: 'Tenant not found' });
+    }
+
+    property.tenants.splice(tenantIndex, 1);
+
+    await property.save();
+
+    res.status(200).json({ message: 'Tenant deleted successfully', property });
+  } catch (error) {
+    res.status(500).json({ message: 'Server error', error });
+  }
+};

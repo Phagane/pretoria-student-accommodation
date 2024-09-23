@@ -1,14 +1,15 @@
-// ManageProperty.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-import UpdatePropertyForm from './UpdatePropertyForm'; // Import the new component
+import UpdatePropertyForm from './UpdatePropertyForm'; 
+import TenantTable from './TenantTable';
+import AddTenantButton from './AddTenantButton';
 
 const ManageProperty = () => {
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [isUpdateOpen, setIsUpdateOpen] = useState(false); // New state for controlling form visibility
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false); 
   const { propertyId } = useParams();
 
   useEffect(() => {
@@ -35,7 +36,18 @@ const ManageProperty = () => {
   const handleUpdateClose = () => setIsUpdateOpen(false);
 
   const handlePropertyUpdate = (updatedProperty) => {
-    setProperty(updatedProperty); // Update property details with the new data
+    setProperty(updatedProperty); 
+  };
+
+  const handleTenantAdded = () => {
+    // Refresh the tenant list or fetch updated data
+  };
+
+  const handleTenantRemoved = (tenantId) => {
+    setProperty((prevProperty) => ({
+      ...prevProperty,
+      tenants: prevProperty.tenants.filter((tenant) => tenant._id !== tenantId),
+    }));
   };
 
   if (loading) return <div>Loading...</div>;
@@ -67,6 +79,8 @@ const ManageProperty = () => {
           Update
         </button>
       </div>
+      <AddTenantButton propertyId={propertyId} onTenantAdded={handleTenantAdded} />
+      <TenantTable tenants={property.tenants} propertyId={propertyId} onTenantRemoved={handleTenantRemoved} />
     </div>
   );
 };
