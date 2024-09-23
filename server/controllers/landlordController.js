@@ -44,7 +44,6 @@ exports.addProperty = async (req, res) => {
 exports.getLandlordProperties = async (req, res) => {
     try {
       const landlordEmail = req.user.email; 
-      console.log("Landlord email: ", landlordEmail)
       const properties = await Property.find({ 'agent.email': landlordEmail });
   
       if (!properties) {
@@ -62,8 +61,6 @@ exports.getLandlordProperties = async (req, res) => {
   exports.getPropertyById = async (req, res) => {
     try {
       const { propertyId } = req.params;
-      console.log(`Fetching property with ID: ${propertyId}`);  // Add this log for debugging
-
       const property = await Property.findById(propertyId);
   
       if (!property) {

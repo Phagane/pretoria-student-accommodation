@@ -1,14 +1,15 @@
+// ManageProperty.jsx
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-
+import UpdatePropertyForm from './UpdatePropertyForm'; // Import the new component
 
 const ManageProperty = () => {
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false); // New state for controlling form visibility
   const { propertyId } = useParams();
-
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
@@ -31,11 +32,26 @@ const ManageProperty = () => {
     fetchPropertyDetails();
   }, [propertyId]);
 
+  const handleUpdateClose = () => setIsUpdateOpen(false);
+
+  const handlePropertyUpdate = (updatedProperty) => {
+    setProperty(updatedProperty); // Update property details with the new data
+  };
+
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {isUpdateOpen && (
+        <UpdatePropertyForm
+          propertyId={propertyId}
+          initialData={property}
+          onClose={handleUpdateClose}
+          onUpdate={handlePropertyUpdate}
+        />
+      )}
+
       <h2 className="text-2xl font-semibold mb-6">Manage {property.name}</h2>
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
         <h3 className="text-xl font-semibold mb-2">Property Details</h3>
@@ -43,8 +59,14 @@ const ManageProperty = () => {
         <p className="font-bold mb-2">Price: {property.price}</p>
         <p className="text-gray-500 mb-2">Location: {property.location}</p>
         <p className="text-gray-500 mb-2">Furnished: {property.furnished ? 'Yes' : 'No'}</p>
+
+        <button
+          onClick={() => setIsUpdateOpen(true)}
+          className="bg-violet-700 text-white py-2 px-4 mt-2 rounded-lg hover:bg-violet-800"
+        >
+          Update
+        </button>
       </div>
-      {/* Additional management options can go here */}
     </div>
   );
 };

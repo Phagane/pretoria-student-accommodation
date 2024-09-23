@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import AddPropertyForm from './AddNewProperty';
 import PropertyCard from './PropertyCard'; // Import the PropertyCard
@@ -9,7 +8,6 @@ const LandlordProperties = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddPropertyForm, setShowAddPropertyForm] = useState(false);
-  
 
   useEffect(() => {
     const fetchProperties = async () => {
