@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import AddPropertyForm from './AddNewProperty';
-import PropertyCard from './PropertyCard'; 
+import PropertyCard from './PropertyCard'; // Import the PropertyCard
 
 const LandlordProperties = () => {
   const [properties, setProperties] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showAddPropertyForm, setShowAddPropertyForm] = useState(false);
+  
 
   useEffect(() => {
     const fetchProperties = async () => {
       try {
         const token = localStorage.getItem('token');
-
         const response = await axios.get('http://127.0.0.1:8000/api/v1/landlord/properties', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-
-        setProperties(response.data.properties); 
+        setProperties(response.data.properties);
         setLoading(false);
       } catch (err) {
         console.error(err);
         setError('Error loading properties');
-        setLoading(false); 
+        setLoading(false);
       }
     };
 
@@ -41,8 +41,8 @@ const LandlordProperties = () => {
   };
 
   const handleAddPropertySubmit = (newProperty) => {
-    setProperties([...properties, newProperty]); 
-    setShowAddPropertyForm(false); 
+    setProperties([...properties, newProperty]);
+    setShowAddPropertyForm(false);
   };
 
   if (loading) return <div>Loading...</div>;
@@ -57,21 +57,13 @@ const LandlordProperties = () => {
       >
         Add New Property
       </button>
-
       {showAddPropertyForm && (
-        <AddPropertyForm 
-        onSubmit={handleAddPropertySubmit} 
-        onCancel={handleAddPropertyCancel} />
+        <AddPropertyForm onSubmit={handleAddPropertySubmit} onCancel={handleAddPropertyCancel} />
       )}
-
-      <div className="mt-6">
-        {properties.length > 0 ? (
-          properties.map((property) => (
-            <PropertyCard key={property.id} property={property} /> 
-          ))
-        ) : (
-          <p className="text-center">No properties found. Add your first property!</p>
-        )}
+      <div className="mt-4">
+        {properties.map((property) => (
+          <PropertyCard key={property.id} property={property} />
+        ))}
       </div>
     </div>
   );
