@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
-const ApplyForAccommodationForm = ({ onClose }) => {
+const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [fundingType, setFundingType] = useState('');
   const [roomType, setRoomType] = useState([]);
+  
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -16,16 +18,26 @@ const ApplyForAccommodationForm = ({ onClose }) => {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(`Application submitted with the following details:
-    Name: ${name}, 
-    Email: ${email}, 
-    Phone Number: ${phoneNumber}, 
-    Funding Type: ${fundingType}, 
-    Room Type: ${roomType.join(', ')}`);
     
-    onClose(); 
+    // Form data to be sent to the server
+    const formData = {
+      name,
+      email,
+      phoneNum: phoneNumber,
+      fundingType,
+      roomType: roomType.join(', '),
+    };
+    try {
+      // Send the form data to the backend
+      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`, formData);
+      console.log('Application submitted:', response.data);
+      onClose(); // Close the form after submission
+    } catch (error) {
+      console.error('Error submitting application:', error);
+    }
+
   };
 
   return (
@@ -85,12 +97,12 @@ const ApplyForAccommodationForm = ({ onClose }) => {
                 <input
                   type="radio"
                   name="fundingType"
-                  value="Funded by NSFAS"
+                  value="NSFAS"
                   onChange={(e) => setFundingType(e.target.value)}
                   className="form-radio text-indigo-600"
                   required
                 />
-                <span className="ml-2">Funded by NSFAS</span>
+                <span className="ml-2">NSFAS</span>
               </label>
               <label className="block">
                 <input
@@ -123,21 +135,21 @@ const ApplyForAccommodationForm = ({ onClose }) => {
                 <input
                   type="checkbox"
                   name="roomType"
-                  value="Single room"
+                  value="single"
                   onChange={handleCheckboxChange}
                   className="form-checkbox text-indigo-600"
                 />
-                <span className="ml-2">Single room</span>
+                <span className="ml-2">Single</span>
               </label>
               <label className="inline-flex items-center ml-4">
                 <input
                   type="checkbox"
                   name="roomType"
-                  value="Sharing room"
+                  value="sharing"
                   onChange={handleCheckboxChange}
                   className="form-checkbox text-indigo-600"
                 />
-                <span className="ml-2">Sharing room</span>
+                <span className="ml-2">Sharing</span>
               </label>
             </div>
           </div>

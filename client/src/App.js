@@ -10,6 +10,7 @@ import SignupForm from './components/Authentication/SignupForm';
 import TenantDashboard from './components/Tenant/TenantDashboard';
 import ProtectedRoute from './components/Protect/ProtectedRoute';
 import ManageProperty from './components/Landlord/ManageProperty';
+import Notifications from './components/Notification/Notifications';
 
 const App = () => {
   const exampleTenantId = 1; // Tenant email
@@ -35,6 +36,7 @@ const App = () => {
             path="/tenant-dashboard" 
             element={<ProtectedRoute><TenantDashboard tenantId={exampleTenantId} />
           </ProtectedRoute>} />
+          <Route path='/notifications' element={<Notifications />} />
           <Route path='/signin' element={<LoginForm />} />
           <Route path='/signup' element={<SignupForm />} />
         </Routes>

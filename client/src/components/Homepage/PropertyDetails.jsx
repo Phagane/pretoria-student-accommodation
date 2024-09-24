@@ -71,7 +71,7 @@ const PropertyDetails = () => {
       {showViewingForm && (
         <ViewingRequestForm onClose={toggleViewingForm} />
       )}
-      {showApplicationForm && <ApplyForAccommodationForm onClose={toggleApplicationForm} />}
+      {showApplicationForm && <ApplyForAccommodationForm propertyId={property._id} onClose={toggleApplicationForm} />}
 
       <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-1">
         <div className="relative">

@@ -20,6 +20,42 @@ const tenantSchema = new mongoose.Schema({
   },
 });
 
+const applicantSchema = new mongoose.Schema({
+  name:{
+    type: String,
+  },
+  email:{
+    type: String,
+  },
+  phoneNum:{
+    type: String,
+  },
+  fundingType: {
+    type: String,
+    enum: ['NSFAS', 'Self funded', 'Private Bursary'],
+  },
+  roomType: {
+    type: String,
+    enum: ['single', 'sharing'],
+    default: 'sharing',
+  },
+})
+
+const requestSchema = new mongoose.Schema({
+  name:{
+    type: String,
+  },
+  email:{
+    type: String,
+  },
+  phoneNum:{
+    type: String,
+  },
+  date:{
+    type:Date,
+  }
+})
+
 const propertySchema = new mongoose.Schema({
   name: {
     type: String,
@@ -53,6 +89,8 @@ const propertySchema = new mongoose.Schema({
   },
   image: String, 
   tenants: [tenantSchema],
+  applicants: [applicantSchema],
+  viewingRequests: [requestSchema],
 });
 
 module.exports = mongoose.model('Property', propertySchema);
