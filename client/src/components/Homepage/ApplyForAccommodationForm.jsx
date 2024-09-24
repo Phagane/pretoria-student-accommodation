@@ -21,7 +21,7 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Form data to be sent to the server
+ 
     const formData = {
       name,
       email,
@@ -30,10 +30,11 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
       roomType: roomType.join(', '),
     };
     try {
-      // Send the form data to the backend
+     
       const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`, formData);
       console.log('Application submitted:', response.data);
-      onClose(); // Close the form after submission
+      alert("Application Submitted")
+      onClose(); 
     } catch (error) {
       console.error('Error submitting application:', error);
     }

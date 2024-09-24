@@ -33,17 +33,15 @@ exports.getPropertyDetails = async (req, res) => {
 
   exports.applyForAccommodation = async (req, res) => {
     try {
-      const { propertyId } = req.params; // Assuming the property ID is passed in the URL
+      const { propertyId } = req.params; 
       const { name, email, phoneNum, fundingType, roomType } = req.body;
   
-      // Find the property by its ID
       const property = await Property.findById(propertyId);
   
       if (!property) {
         return res.status(404).json({ message: 'Property not found' });
       }
   
-      // Add the applicant to the property
       property.applicants.push({
         name,
         email,
@@ -52,7 +50,33 @@ exports.getPropertyDetails = async (req, res) => {
         roomType
       });
   
-      // Save the property with the new applicant
+      await property.save();
+  
+      res.status(200).json({ message: 'Application submitted successfully' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
+
+  exports.requestToView = async (req, res) => {
+    try {
+      const { propertyId } = req.params; 
+      const { name, email, phoneNum, date} = req.body;
+  
+      const property = await Property.findById(propertyId);
+  
+      if (!property) {
+        return res.status(404).json({ message: 'Property not found' });
+      }
+  
+      property.viewingRequests.push({
+        name,
+        email,
+        phoneNum,
+        date,
+      });
+  
       await property.save();
   
       res.status(200).json({ message: 'Application submitted successfully' });

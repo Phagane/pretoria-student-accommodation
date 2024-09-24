@@ -69,7 +69,7 @@ const PropertyDetails = () => {
   return (
     <div className="relative container mx-auto px-4 py-8">
       {showViewingForm && (
-        <ViewingRequestForm onClose={toggleViewingForm} />
+        <ViewingRequestForm propertyId={property._id} onClose={toggleViewingForm} />
       )}
       {showApplicationForm && <ApplyForAccommodationForm propertyId={property._id} onClose={toggleApplicationForm} />}
 
