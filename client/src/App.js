@@ -21,7 +21,7 @@ const App = () => {
       {!isExcludedPage && <Header />}
       <main className='app-main'>
         <Routes>
-          <Route path="/" element={<HomeLayout />} />
+          <Route path="/home" element={<HomeLayout />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route 
             path="/properties" 

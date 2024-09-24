@@ -26,7 +26,7 @@ const Header = () => {
             alt="App Logo"
             className="h-20 w-20 mr-2"
           />
-          <a href="/" className="font-semibold text-xl text-gray-800">
+          <a href="/home" className="font-semibold text-xl text-gray-800">
             Pretoria Student Accommodations
           </a>
         </div>

@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const cors = require('cors')
 const authRouter = require('./routes/authRouter')
 const landlordRouter = require('./routes/landlordRouter')
+const userRouter = require('./routes/userRouter')
 
 dotenv.config({path: './config/config.env'})
 const app = express()
@@ -39,7 +40,7 @@ app.get('/', (req, res)=>{
 app.options('*', cors())
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/landlord', landlordRouter)
-
+app.use('/api/v1/user', userRouter)
 
 const port = process.env.PORT
 
