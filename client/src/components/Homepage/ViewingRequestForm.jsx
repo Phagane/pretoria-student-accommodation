@@ -34,19 +34,7 @@ const ViewingRequestForm = ({ onClose }) => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="time" className="block text-sm font-medium text-gray-700">
-              Pick a Time
-            </label>
-            <input
-              type="time"
-              id="time"
-              value={time}
-              onChange={(e) => setTime(e.target.value)}
-              className="mt-1 block w-full border-black rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
+          
           <button
             type="submit"
             className="bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
