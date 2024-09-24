@@ -1,23 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import properties from '../../data/properties.json';
+import axios from 'axios';
 import LandLordDetails from './LandlordDetails';
 import ViewingRequestForm from './ViewingRequestForm'; 
 import ApplyForAccommodationForm from './ApplyForAccommodationForm';
 
 const PropertyDetails = () => {
   const { id } = useParams();
-  const property = properties.find((p) => p.id === parseInt(id));
-
+  const [property, setProperty] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [showViewingForm, setShowViewingForm] = useState(false); 
   const [showApplicationForm, setShowApplicationForm] = useState(false); 
 
+  useEffect(() => {
+    // Fetch property details from the backend
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/property/${id}`);
+        setProperty(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError('Error fetching property');
+        setLoading(false);
+      }
+    };
+
+    fetchProperty();
+  }, [id]);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // Render error state
+  if (error) {
+    return <p className="text-center text-red-500">{error}</p>;
+  }
+
+  // Render "property not found" if property is null
   if (!property) {
     return <p className="text-center text-red-500">Property not found.</p>;
   }
-
-  const images = [
+  /* const images = [
     property.image,
     property.image2,
     property.image3,
@@ -31,7 +56,7 @@ const PropertyDetails = () => {
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  };
+  }; */
 
   const toggleViewingForm = () => {
     setShowViewingForm((prevShow) => !prevShow); 
@@ -50,7 +75,7 @@ const PropertyDetails = () => {
 
       <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-1">
         <div className="relative">
-          <img
+          {/* <img
             src={images[currentImageIndex]}
             alt={`${property.name} - ${currentImageIndex + 1}`}
             className="w-full h-80 object-cover"
@@ -66,16 +91,17 @@ const PropertyDetails = () => {
             className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
           >
             &#8250;
-          </button>
+          </button> */}
         </div>
 
         <div className="p-6">
           <h1 className="text-2xl font-bold mb-4">{property.name}</h1>
           <div className="mt-1">
-            <p className="text-gray-700">{property.details}</p>
+            <h1 className="text-gray-700">{property.description}</h1>
           </div>
-          <p className="text-lg font-semibold mb-2 mt-1">Price: {property.price}</p>
-          <p className="text-gray-500 mb-2">Gender: {property.gender}</p>
+          <p className="text-lg font-semibold mb-2 mt-1">Price: R{property.price}</p>
+          <p className="text-gray-500 mb-2">Room Type: {property.occupancyType}</p>
+          <p className="text-gray-500 mb-2">Gender: {property.genderAllowed}</p>
           <p className="text-gray-500 mb-2">Furnished: {property.furnished ? 'Yes' : 'No'}</p>
           <p className="text-gray-500 mb-2">Location: {property.location}</p>
 
