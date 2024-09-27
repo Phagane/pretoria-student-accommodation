@@ -188,3 +188,43 @@ exports.deleteTenant = async (req, res) => {
     res.status(500).json({ message: 'Server error', error });
   }
 };
+
+exports.getLandlordNotifications = async (req, res) => {
+  try {
+    const landlordEmail = req.user.email; 
+
+    const properties = await Property.find({ 'agent.email': landlordEmail })
+      .select('applicants viewingRequests name');
+
+    if (!properties.length) {
+      return res.status(404).json({ message: 'No properties found for this landlord' });
+    }
+
+    const applicants = [];
+    const viewingRequests = [];
+
+    properties.forEach((property) => {
+      property.applicants.forEach((applicant) => {
+        applicants.push({
+          ...applicant._doc, 
+          propertyName: property.name, 
+        });
+      });
+
+      property.viewingRequests.forEach((request) => {
+        viewingRequests.push({
+          ...request._doc,
+          propertyName: property.name, 
+        });
+      });
+    });
+
+    res.status(200).json({
+      applicants,
+      viewingRequests,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};

@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
@@ -7,6 +8,7 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [fundingType, setFundingType] = useState('');
   const [roomType, setRoomType] = useState([]);
+  const navigate = useNavigate()
   
 
   const handleCheckboxChange = (e) => {
@@ -18,6 +20,15 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
     }
   };
 
+  useEffect(() =>{
+    const token = localStorage.getItem('token');
+    if(!token){
+      
+      return(
+        navigate('/signin')     
+      )}
+      },[])
+    
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -30,8 +41,9 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
       roomType: roomType.join(', '),
     };
     try {
-     
-      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`, formData);
+      
+      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`,formData);
+
       console.log('Application submitted:', response.data);
       alert("Application Submitted")
       onClose(); 
