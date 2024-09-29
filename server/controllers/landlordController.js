@@ -191,10 +191,14 @@ exports.deleteTenant = async (req, res) => {
 
 exports.getLandlordNotifications = async (req, res) => {
   try {
-    const landlordEmail = req.user.email; 
+    const landlordEmail = req.user.email;
 
     const properties = await Property.find({ 'agent.email': landlordEmail })
-      .select('applicants viewingRequests name');
+      .select('applicants viewingRequests name')
+      .populate({
+        path: 'applicants.user', 
+        select: 'name email phoneNumber', 
+      });
 
     if (!properties.length) {
       return res.status(404).json({ message: 'No properties found for this landlord' });
@@ -206,8 +210,11 @@ exports.getLandlordNotifications = async (req, res) => {
     properties.forEach((property) => {
       property.applicants.forEach((applicant) => {
         applicants.push({
-          ...applicant._doc, 
+          ...applicant._doc,
           propertyName: property.name, 
+          applicantName: applicant.user.name, 
+          applicantEmail: applicant.user.email, 
+          applicantPhone: applicant.user.phoneNumber, 
         });
       });
 
@@ -228,3 +235,4 @@ exports.getLandlordNotifications = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+

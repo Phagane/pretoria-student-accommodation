@@ -20,15 +20,12 @@ const tenantSchema = new mongoose.Schema({
   },
 });
 
+
 const applicantSchema = new mongoose.Schema({
-  name:{
-    type: String,
-  },
-  email:{
-    type: String,
-  },
-  phoneNum:{
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',  
+    required: true,
   },
   fundingType: {
     type: String,
@@ -39,7 +36,7 @@ const applicantSchema = new mongoose.Schema({
     enum: ['single', 'sharing'],
     default: 'sharing',
   },
-})
+});
 
 const requestSchema = new mongoose.Schema({
   name:{
@@ -87,10 +84,10 @@ const propertySchema = new mongoose.Schema({
       required: true,
     },
   },
-  image: String, 
+  image: String,
   tenants: [tenantSchema],
-  applicants: [applicantSchema],
-  viewingRequests: [requestSchema],
+  applicants: [applicantSchema],  
+  viewingRequests: [requestSchema], 
 });
 
 module.exports = mongoose.model('Property', propertySchema);

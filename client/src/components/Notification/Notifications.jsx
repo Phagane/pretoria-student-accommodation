@@ -17,7 +17,9 @@ const Notifications = () => {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        });        setNotificationsData({
+        });
+
+        setNotificationsData({
           applicants: response.data.applicants,
           viewingRequests: response.data.viewingRequests,
         });
@@ -32,11 +34,13 @@ const Notifications = () => {
   }, []);
 
   const handleAccept = (id, type) => {
-    //console.log(`Accepted ${type} with ID: ${id}`);
+    // Logic for accepting application/view request
+    console.log(`Accepted ${type} with ID: ${id}`);
   };
 
   const handleReject = (id, type) => {
-   // console.log(`Rejected ${type} with ID: ${id}`);
+    // Logic for rejecting application/view request
+    console.log(`Rejected ${type} with ID: ${id}`);
   };
 
   if (loading) {
@@ -60,7 +64,10 @@ const Notifications = () => {
           {notificationsData.applicants.map((applicant) => (
             <li key={applicant._id} className="mb-4 p-4 bg-white rounded-lg shadow-md border">
               <div className="text-lg font-medium">
-                <strong>{applicant.name}</strong> applied for a {applicant.roomType} room.
+                <strong>{applicant.applicantName}</strong> applied for a {applicant.roomType} room in <strong>{applicant.propertyName}</strong>.
+              </div>
+              <div className="text-sm text-gray-500 mt-1">
+                Email: {applicant.applicantEmail}, Phone: 0835138975, Funding Type: {applicant.fundingType}
               </div>
               <div className="mt-3">
                 <button
@@ -90,7 +97,7 @@ const Notifications = () => {
           {notificationsData.viewingRequests.map((request) => (
             <li key={request._id} className="mb-4 p-4 bg-white rounded-lg shadow-md border">
               <div className="text-lg font-medium">
-                <strong>{request.name}</strong> requested to view a property on {new Date(request.date).toLocaleDateString()}.
+                <strong>{request.name}</strong> requested to view <strong>{request.propertyName}</strong> on {new Date(request.date).toLocaleDateString()}.
               </div>
               <div className="mt-3">
                 <button

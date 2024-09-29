@@ -34,7 +34,8 @@ exports.getPropertyDetails = async (req, res) => {
   exports.applyForAccommodation = async (req, res) => {
     try {
       const { propertyId } = req.params; 
-      const { name, email, phoneNum, fundingType, roomType } = req.body;
+      const { fundingType, roomType } = req.body;
+      const userId = req.user._id;  
   
       const property = await Property.findById(propertyId);
   
@@ -42,10 +43,16 @@ exports.getPropertyDetails = async (req, res) => {
         return res.status(404).json({ message: 'Property not found' });
       }
   
+      const existingApplication = property.applicants.find(applicant => 
+        applicant.user.toString() === userId.toString()
+      );
+  
+      if (existingApplication) {
+        return res.status(400).json({ message: 'You have already applied for this property' });
+      }
+  
       property.applicants.push({
-        name,
-        email,
-        phoneNum,
+        user: userId,
         fundingType,
         roomType
       });
@@ -58,6 +65,7 @@ exports.getPropertyDetails = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
+  
 
   exports.requestToView = async (req, res) => {
     try {

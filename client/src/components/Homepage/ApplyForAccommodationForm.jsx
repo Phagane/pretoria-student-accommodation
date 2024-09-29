@@ -3,13 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [fundingType, setFundingType] = useState('');
   const [roomType, setRoomType] = useState([]);
-  const navigate = useNavigate()
-  
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return navigate('/signin');
+    }
+  }, [navigate]);
 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
@@ -20,37 +23,28 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
     }
   };
 
-  useEffect(() =>{
-    const token = localStorage.getItem('token');
-    if(!token){
-      
-      return(
-        navigate('/signin')     
-      )}
-      },[])
-    
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
- 
+
     const formData = {
-      name,
-      email,
-      phoneNum: phoneNumber,
       fundingType,
       roomType: roomType.join(', '),
     };
-    try {
-      
-      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`,formData);
 
+    try {
+      const token = localStorage.getItem('token'); // Assuming JWT token is stored in localStorage
+
+      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log('Application submitted:', response.data);
-      alert("Application Submitted")
-      onClose(); 
+      alert('Application Submitted');
+      onClose();
     } catch (error) {
       console.error('Error submitting application:', error);
     }
-
   };
 
   return (
@@ -64,45 +58,6 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
         </button>
         <h2 className="text-xl font-semibold mb-4">Apply for Accommodation</h2>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="mr-60 mt-1 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 border-2 border-indigo-600 block w-full rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">
-              Phone Number
-            </label>
-            <input
-              type="tel"
-              id="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              className="mt-1 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-              required
-            />
-          </div>
           <div className="mb-4">
             <span className="block text-sm font-medium text-gray-700">Funding Type</span>
             <div className="mt-2">
