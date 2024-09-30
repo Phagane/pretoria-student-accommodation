@@ -13,7 +13,7 @@ const TenantPropertyDetails = () => {
   useEffect(() => {
     const fetchTenantDetails = async () => {
       try {
-        const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+        const token = localStorage.getItem('token'); 
         const response = await axios.get('http://127.0.0.1:8000/api/v1/user/user-info', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -31,9 +31,30 @@ const TenantPropertyDetails = () => {
     fetchTenantDetails();
   }, []);
 
-  const handleUpdate = (updatedDetails) => {
-    console.log('Updated details from parent:', updatedDetails);
-    setIsEditing(false); 
+  const handleUpdate = async (updatedDetails) => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.put(
+        'http://127.0.0.1:8000/api/v1/user/update-details',
+        updatedDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setTenantDetails((prevDetails) => ({
+        ...prevDetails,
+        ...updatedDetails,
+      }));
+
+      setIsEditing(false);
+      alert('User details updated successfully');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to update user details');
+    }
   };
 
   if (loading) {
@@ -66,7 +87,7 @@ const TenantPropertyDetails = () => {
 
       {isEditing && (
         <UpdateTenantDetailsForm
-          tenant={tenant}
+          tenantDetails={tenantDetails}
           onUpdate={handleUpdate}
           onCancel={() => setIsEditing(false)}
         />

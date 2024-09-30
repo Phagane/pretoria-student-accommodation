@@ -1,69 +1,52 @@
 import React, { useState } from 'react';
 
-const UpdateTenantDetailsForm = ({ tenant, onUpdate, onCancel }) => {
-  const [formData, setFormData] = useState({
-    name: tenant.name,
-    email: tenant.email,
-    phone: tenant.phone,
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+const UpdateTenantDetailsForm = ({ tenantDetails, onUpdate, onCancel }) => {
+  const [name, setName] = useState(tenantDetails.name || '');
+  const [email, setEmail] = useState(tenantDetails.email || '');
+  const [phoneNumber, setPhoneNumber] = useState(tenantDetails.phoneNumber || '');
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission
-    console.log('Updated tenant details:', formData);
-    onUpdate(formData); // Call the onUpdate function with the updated data
+    onUpdate({ name, email, phoneNumber });
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mt-6 p-4 bg-gray-100 rounded-lg">
-      <h3 className="text-lg font-semibold mb-4">Update Your Details</h3>
-      <div className="mb-4">
-        <label className="block text-gray-700">Name:</label>
+    <form onSubmit={handleSubmit} className="bg-gray-100 p-4 rounded-md shadow-md">
+      <div>
+        <label className="block text-sm font-medium">Name</label>
         <input
           type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
         />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Email:</label>
+
+      <div>
+        <label className="block text-sm font-medium">Email</label>
         <input
           type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
         />
       </div>
-      <div className="mb-4">
-        <label className="block text-gray-700">Phone:</label>
+
+      <div>
+        <label className="block text-sm font-medium">Phone Number</label>
         <input
           type="text"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
-          className="w-full px-3 py-2 border rounded"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          className="mt-1 p-2 w-full border border-gray-300 rounded-md"
         />
       </div>
-      <div className="flex gap-4">
-        <button
-          type="submit"
-          className="bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400"
-        >
+
+      <div className="mt-4">
+        <button type="submit" className="bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700">
           Save
         </button>
-        <button
-          type="button"
-          onClick={onCancel}
-          className="bg-red-600 text-white py-2 px-4 rounded hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-400"
-        >
+        <button type="button" onClick={onCancel} className="ml-2 bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600">
           Cancel
         </button>
       </div>

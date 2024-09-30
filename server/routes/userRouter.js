@@ -6,6 +6,7 @@ const {
     applyForAccommodation,
     requestToView,
     getUserInfoWithTenantDetails,
+    updateUserDetails,
 } = require('./../controllers/userController')
 
 const router = express.Router()
@@ -15,5 +16,6 @@ router.route('/property/:propertyId').get(getPropertyDetails)
 router.route('/property/:propertyId/apply').post(authMiddleware ,applyForAccommodation)
 router.route('/property/:propertyId/request').post(requestToView)
 router.route('/user-info').get(authMiddleware, getUserInfoWithTenantDetails)
+router.route('/update-details').put(authMiddleware, updateUserDetails)
 
 module.exports = router
