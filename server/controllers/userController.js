@@ -22,13 +22,17 @@ exports.getPropertyDetails = async (req, res) => {
       const property = await Property.findById(propertyId);
   
       if (!property) {
-        return res.status(404).json({ message: 'Property not found' });
+        return res.status(404).json({
+           message: 'Property not found' 
+          });
       }
   
       res.status(200).json(property);
     } catch (error) {
       console.error('Error fetching property:', error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error' 
+      });
     }
   };
 
@@ -41,7 +45,9 @@ exports.getPropertyDetails = async (req, res) => {
       const property = await Property.findById(propertyId);
   
       if (!property) {
-        return res.status(404).json({ message: 'Property not found' });
+        return res.status(404).json({ 
+          message: 'Property not found' 
+        });
       }
   
       const existingApplication = property.applicants.find(applicant => 
@@ -49,7 +55,9 @@ exports.getPropertyDetails = async (req, res) => {
       );
   
       if (existingApplication) {
-        return res.status(400).json({ message: 'You have already applied for this property' });
+        return res.status(400).json({ 
+          message: 'You have already applied for this property' 
+        });
       }
   
       property.applicants.push({
@@ -60,10 +68,14 @@ exports.getPropertyDetails = async (req, res) => {
   
       await property.save();
   
-      res.status(200).json({ message: 'Application submitted successfully' });
+      res.status(200).json({ 
+        message: 'Application submitted successfully' 
+      });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error' 
+      });
     }
   };
   
@@ -76,7 +88,9 @@ exports.getPropertyDetails = async (req, res) => {
       const property = await Property.findById(propertyId);
   
       if (!property) {
-        return res.status(404).json({ message: 'Property not found' });
+        return res.status(404).json({ 
+          message: 'Property not found' 
+        });
       }
   
       property.viewingRequests.push({
@@ -91,48 +105,50 @@ exports.getPropertyDetails = async (req, res) => {
       res.status(200).json({ message: 'Application submitted successfully' });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error' 
+      });
     }
   };
 
 exports.getUserInfoWithTenantDetails = async (req, res) => {
-  const userId = req.user._id; // Assuming you get the user's ID from a decoded token or session
+  const userId = req.user._id; 
 
   try {
-    // Step 1: Fetch user information
+
     const user = await User.findById(userId).select('name email phoneNumber');
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ 
+        message: 'User not found' 
+      });
     }
 
-    // Step 2: Find if the user is a tenant in any property
     const property = await Property.findOne({ 'tenants.user': userId })
       .select('name location price furnished tenants')
       .populate({
-        path: 'tenants.user', // Populate tenant's user info
-        select: 'name email phoneNumber', // Only select required fields
+        path: 'tenants.user', 
+        select: 'name email phoneNumber', 
       });
 
     if (!property) {
-      // If the user is not a tenant in any property, just return user details
       return res.status(200).json({
         user: {
           name: user.name,
           email: user.email,
           phoneNumber: user.phoneNumber,
         },
-        tenantDetails: null, // User is not a tenant
+        tenantDetails: null, 
       });
     }
 
-    // Step 3: Extract the tenant details from the property
     const tenant = property.tenants.find((tenant) => tenant.user._id.toString() === userId.toString());
 
     if (!tenant) {
-      return res.status(404).json({ message: 'Tenant details not found for this user' });
+      return res.status(404).json({ 
+        message: 'Tenant details not found for this user' 
+      });
     }
 
-    // Step 4: Return the user and tenant details
     res.status(200).json({
       user: {
         name: user.name,
@@ -150,33 +166,35 @@ exports.getUserInfoWithTenantDetails = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      message: 'Server error' 
+    });
   }
 };
 
 exports.updateUserDetails = async (req, res) => {
-  const  userId  = req.user._id; // Assuming you're using an auth middleware that attaches the userId to req.user
+  const  userId  = req.user._id; 
   const { name, email, phoneNumber } = req.body;
-  console.log(name, email, phoneNumber)
-  console.log(userId)
-
+ 
   try {
-    // Find the user by ID
     const user = await User.findById(userId);
 
     if (!user) {
-      return res.status(404).json({ message: 'User not found' });
+      return res.status(404).json({ 
+        message: 'User not found' 
+      });
     }
 
-    // Update user details
     user.name = name || user.name;
     user.email = email || user.email;
     user.phoneNumber = phoneNumber || user.phoneNumber;
 
-    // Save the updated user
     await user.save();
 
-    res.status(200).json({ message: 'User details updated successfully', user });
+    res.status(200).json({ 
+      message: 'User details updated successfully', 
+      user 
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
