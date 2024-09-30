@@ -42,7 +42,7 @@ const Notifications = () => {
   const openAcceptForm = (applicantId, propertyId) => {
     setSelectedApplicantId(applicantId);
     setSelectedPropertyId(propertyId);
-    setIsFormVisible(true); // Show the form
+    setIsFormVisible(true);
   };
 
   const handleSubmit = async (e) => {
@@ -60,8 +60,7 @@ const Notifications = () => {
         }
       );
       alert('Applicant accepted and added as tenant');
-      setIsFormVisible(false); // Hide the form after submission
-      // Optionally, refresh the notifications
+      setIsFormVisible(false); 
     } catch (err) {
       console.error(err);
       alert('Failed to accept applicant');

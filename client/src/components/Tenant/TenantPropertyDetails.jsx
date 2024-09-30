@@ -1,29 +1,61 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import CancelContractRequest from './CancelContractRequest';
-import properties from '../../data/properties.json';
-import tenants from '../../data/tenants.json';
 import UpdateTenantDetailsForm from './UpdateTenantDetailsForm ';
 
-const TenantPropertyDetails = ({ tenantId }) => {
+
+const TenantPropertyDetails = () => {
   const [isEditing, setIsEditing] = useState(false); 
-  const tenant = tenants.find((t) => t.id === tenantId);
-  const property = properties.find((p) => p.id === tenant?.propertyId);
+  const [tenantDetails, setTenantDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchTenantDetails = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
+        const response = await axios.get('http://127.0.0.1:8000/api/v1/user/user-info', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setTenantDetails(response.data);
+      } catch (err) {
+        setError('Failed to fetch tenant details.');
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTenantDetails();
+  }, []);
 
   const handleUpdate = (updatedDetails) => {
     console.log('Updated details from parent:', updatedDetails);
     setIsEditing(false); 
   };
 
-  if (!tenant || !property) {
-    return <p>Tenant or property details not found.</p>;
+  if (loading) {
+    return <p>Loading...</p>;
   }
+
+  if (error) {
+    return <p>{error}</p>;
+  }
+
+  if (!tenantDetails) {
+    return <p>Tenant details not found.</p>;
+  }
+
+  const { user, tenantDetails: tenant } = tenantDetails;
 
   return (
     <div className="p-4 bg-white shadow-md rounded-lg">
       <h2 className="text-xl font-semibold mt-6 mb-4">Your Details</h2>
-      <p><strong>Name:</strong> {tenant.name}</p>
-      <p><strong>Email:</strong> {tenant.email}</p>
-      <p><strong>Phone:</strong> {tenant.phone}</p>
+      <p><strong>Name:</strong> {user.name}</p>
+      <p><strong>Email:</strong> {user.email}</p>
+      <p><strong>Phone:</strong> {user.phoneNumber}</p>
 
       <button
         onClick={() => setIsEditing(true)}
@@ -39,18 +71,18 @@ const TenantPropertyDetails = ({ tenantId }) => {
           onCancel={() => setIsEditing(false)}
         />
       )}
+
       <h2 className="text-xl font-semibold mb-4">Accommodation Details</h2>
-      <p><strong>Accommodation Name:</strong> {property.name}</p>
-      <p><strong>Location:</strong> {property.location}</p>
-      <p><strong>Price:</strong> {property.price}</p>
-      <p><strong>Furnished:</strong> {property.furnished ? 'Yes' : 'No'}</p>
+      <p><strong>Accommodation Name:</strong> {tenant?.propertyName}</p>
+      <p><strong>Location:</strong> {tenant?.location}</p>
+      <p><strong>Price:</strong> {tenant?.price}</p>
+      <p><strong>Furnished:</strong> {tenant?.furnished ? 'Yes' : 'No'}</p>
 
       <h2 className="text-xl font-semibold mt-6 mb-4">Lease Details</h2>
-      <p><strong>Room Number:</strong> {tenant.roomNumber}</p>
-      <p><strong>Room Type:</strong> {tenant.roomType}</p>
-      <p><strong>Lease Start Date:</strong> {tenant.leaseStartDate}</p>
-      <p><strong>Lease End Date:</strong> {tenant.leaseEndDate}</p>
-      {tenant && <CancelContractRequest tenantId={tenant.id} />}
+      <p><strong>Room Number:</strong> {tenant?.roomNumber}</p>
+      <p><strong>Room Type:</strong> {tenant?.roomType}</p>
+
+      {tenant && <CancelContractRequest tenantId={tenant._id} />}
     </div>
   );
 };

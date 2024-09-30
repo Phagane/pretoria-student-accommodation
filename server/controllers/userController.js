@@ -1,4 +1,5 @@
 const Property = require('./../models/propertyModel')
+const User = require('./../models/userModel')
 
 exports.getProperties = async (req, res) =>{
 
@@ -93,3 +94,62 @@ exports.getPropertyDetails = async (req, res) => {
       res.status(500).json({ message: 'Server error' });
     }
   };
+
+exports.getUserInfoWithTenantDetails = async (req, res) => {
+  const userId = req.user._id; // Assuming you get the user's ID from a decoded token or session
+
+  try {
+    // Step 1: Fetch user information
+    const user = await User.findById(userId).select('name email phoneNumber');
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Step 2: Find if the user is a tenant in any property
+    const property = await Property.findOne({ 'tenants.user': userId })
+      .select('name location price furnished tenants')
+      .populate({
+        path: 'tenants.user', // Populate tenant's user info
+        select: 'name email phoneNumber', // Only select required fields
+      });
+
+    if (!property) {
+      // If the user is not a tenant in any property, just return user details
+      return res.status(200).json({
+        user: {
+          name: user.name,
+          email: user.email,
+          phoneNumber: user.phoneNumber,
+        },
+        tenantDetails: null, // User is not a tenant
+      });
+    }
+
+    // Step 3: Extract the tenant details from the property
+    const tenant = property.tenants.find((tenant) => tenant.user._id.toString() === userId.toString());
+
+    if (!tenant) {
+      return res.status(404).json({ message: 'Tenant details not found for this user' });
+    }
+
+    // Step 4: Return the user and tenant details
+    res.status(200).json({
+      user: {
+        name: user.name,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+      },
+      tenantDetails: {
+        propertyName: property.name,
+        location: property.location,
+        price: property.price,
+        furnished: property.furnished ? 'Yes' : 'No',
+        roomNumber: tenant.roomNumber,
+        roomType: tenant.roomType,
+      },
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
