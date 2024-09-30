@@ -5,6 +5,7 @@ import axios from 'axios';
 const SignupForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [role, setRole] = useState('tenant');
@@ -31,6 +32,7 @@ const SignupForm = () => {
         password,
         confirmPassword,
         role,
+        phoneNumber,
       });
 
       if (response.data.status === 'success') {
@@ -75,6 +77,18 @@ const SignupForm = () => {
               onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
               placeholder="Enter your email"
+              required
+            />
+          </div>
+          <div>
+            <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-600">Phone Number</label>
+            <input
+              type="text"
+              id="phoneNumber"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
+              placeholder="Enter your phone number"
               required
             />
           </div>

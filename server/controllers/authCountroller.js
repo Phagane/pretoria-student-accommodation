@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer')
 dotenv.config({path: './../config/config.env'})
 
 exports.signUp = async (req, res) =>{
-    const {email, name, role, password, confirmPassword} = req.body
+    const {email, name, role, phoneNumber, password, confirmPassword} = req.body
 
     if(password !== confirmPassword){
         return(
@@ -35,6 +35,7 @@ exports.signUp = async (req, res) =>{
             password: hashedPassword,
             name: name,
             role: role,
+            phoneNumber: phoneNumber,
         })
     
         await user.save()

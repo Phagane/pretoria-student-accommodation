@@ -68,9 +68,9 @@ const TenantTable = ({propertyId, onTenantRemoved}) => {
           {tenants.length > 0 ? (
             tenants.map((tenant) => (
               <tr key={tenant.id} className="hover:bg-gray-50">
-                <td className="py-3 px-6 border-b border-gray-300 text-gray-800">{tenant.name}</td>
-                <td className="py-3 px-6 border-b border-gray-300 text-gray-800">{tenant.email}</td>
-                <td className="py-3 px-2 border-b border-gray-300 text-gray-800">{tenant.phone}</td>
+                <td className="py-3 px-6 border-b border-gray-300 text-gray-800">{tenant.user.name}</td>
+                <td className="py-3 px-6 border-b border-gray-300 text-gray-800">{tenant.user.email}</td>
+                <td className="py-3 px-2 border-b border-gray-300 text-gray-800">{tenant.user.phoneNumber}</td>
                 <td className="py-3 px-2 border-b border-gray-300 text-gray-800">{tenant.roomNumber}</td>
                 <td className="py-3 px-2 border-b border-gray-300 text-gray-800 capitalize">{tenant.roomType}</td>
                 <td className="py-3 px-6 border-b border-gray-300 text-gray-800">

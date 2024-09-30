@@ -33,9 +33,24 @@ const Notifications = () => {
     fetchNotifications();
   }, []);
 
-  const handleAccept = (id, type) => {
-    // Logic for accepting application/view request
-    console.log(`Accepted ${type} with ID: ${id}`);
+  const handleAccept = async (applicantId, propertyId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://127.0.0.1:8000/api/v1/landlord/accept-applicant',
+        { applicantId, propertyId, roomNumber: '101' }, // Pass the room number if needed
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Applicant accepted and added as tenant');
+      // Optionally, refresh the notifications
+    } catch (err) {
+      console.error(err);
+      alert('Failed to accept applicant');
+    }
   };
 
   const handleReject = (id, type) => {
@@ -67,17 +82,17 @@ const Notifications = () => {
                 <strong>{applicant.applicantName}</strong> applied for a {applicant.roomType} room in <strong>{applicant.propertyName}</strong>.
               </div>
               <div className="text-sm text-gray-500 mt-1">
-                Email: {applicant.applicantEmail}, Phone: 0835138975, Funding Type: {applicant.fundingType}
+                Email: {applicant.applicantEmail}, Phone: {applicant.applicantPhone}, Funding Type: {applicant.fundingType}
               </div>
               <div className="mt-3">
                 <button
-                  onClick={() => handleAccept(applicant._id, 'application')}
+                  onClick={() => handleAccept(applicant._id, applicant.propertyId)}
                   className="bg-green-600 text-white py-1 px-4 rounded-lg mr-2 hover:bg-green-700 transition"
                 >
                   Accept
                 </button>
                 <button
-                  onClick={() => handleReject(applicant._id, 'application')}
+                  onClick={() => handleReject(applicant._id, applicant.propertyId)}
                   className="bg-red-600 text-white py-1 px-4 rounded-lg hover:bg-red-700 transition"
                 >
                   Reject

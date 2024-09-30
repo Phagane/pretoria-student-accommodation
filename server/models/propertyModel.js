@@ -1,14 +1,10 @@
 const mongoose = require('mongoose');
 
 const tenantSchema = new mongoose.Schema({
-  name: {
-    type: String,
-  },
-  email: {
-    type: String,
-  },
-  phone: {
-    type: String,
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',  
+    required: true,
   },
   roomNumber: {
     type: String,

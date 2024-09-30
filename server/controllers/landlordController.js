@@ -48,13 +48,16 @@ exports.getLandlordProperties = async (req, res) => {
   
       if (!properties) {
         return res.status(404).json({ 
-          message: 'No properties found for this landlord' });
+          message: 'No properties found for this landlord' 
+        });
       }
   
       res.status(200).json({ properties });
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error' 
+      });
     }
   };
 
@@ -64,7 +67,9 @@ exports.getLandlordProperties = async (req, res) => {
       const property = await Property.findById(propertyId);
   
       if (!property) {
-        return res.status(404).json({ message: 'Property not found' });
+        return res.status(404).json({ 
+          message: 'Property not found' 
+        });
       }
   
       res.status(200).json({ property });
@@ -82,13 +87,19 @@ exports.getLandlordProperties = async (req, res) => {
       const updatedProperty = await Property.findByIdAndUpdate(propertyId, updates, { new: true });
   
       if (!updatedProperty) {
-        return res.status(404).json({ message: 'Property not found' });
+        return res.status(404).json({ 
+          message: 'Property not found' 
+        });
       }
   
-      res.status(200).json({ property: updatedProperty });
+      res.status(200).json({ 
+        property: updatedProperty 
+      });
     } catch (error) {
       console.error('Error updating property:', error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error' 
+      });
     }
   };
 
@@ -102,10 +113,14 @@ exports.getLandlordProperties = async (req, res) => {
         return res.status(404).json({ message: 'Property not found' });
       }
   
-      res.status(200).json({ message: 'Property deleted successfully' });
+      res.status(200).json({ 
+        message: 'Property deleted successfully' 
+      });
     } catch (error) {
       console.error('Error deleting property:', error);
-      res.status(500).json({ message: 'Server error' });
+      res.status(500).json({ 
+        message: 'Server error' 
+      });
     }
   };
 
@@ -118,7 +133,9 @@ exports.addTenant = async (req, res) => {
     const property = await Property.findById(propertyId);
 
     if (!property) {
-      return res.status(404).json({ message: 'Property not found' });
+      return res.status(404).json({ 
+        message: 'Property not found' 
+      });
     }
 
     const newTenant = {
@@ -139,7 +156,9 @@ exports.addTenant = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      message: 'Server error' 
+    });
   }
 };
 
@@ -147,11 +166,16 @@ exports.getTenants = async (req, res) => {
   const { propertyId } = req.params; 
 
   try {
-
-    const property = await Property.findById(propertyId);
+    
+    const property = await Property.findById(propertyId).populate({
+      path: 'tenants.user', 
+      select: 'name email phoneNumber', 
+    });
 
     if (!property) {
-      return res.status(404).json({ message: 'Property not found' });
+      return res.status(404).json({ 
+        message: 'Property not found' 
+      });
     }
 
     const tenants = property.tenants;
@@ -159,7 +183,9 @@ exports.getTenants = async (req, res) => {
     res.status(200).json({ tenants });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      message: 'Server error' 
+    });
   }
 };
 
@@ -170,20 +196,27 @@ exports.deleteTenant = async (req, res) => {
 
     const property = await Property.findById(propertyId);
     if (!property) {
-      return res.status(404).json({ message: 'Property not found' });
+      return res.status(404).json({ 
+        message: 'Property not found' 
+      });
     }
 
 
     const tenantIndex = property.tenants.findIndex(tenant => tenant._id.toString() === tenantId);
     if (tenantIndex === -1) {
-      return res.status(404).json({ message: 'Tenant not found' });
+      return res.status(404).json({ 
+        message: 'Tenant not found' 
+      });
     }
 
     property.tenants.splice(tenantIndex, 1);
 
     await property.save();
 
-    res.status(200).json({ message: 'Tenant deleted successfully', property });
+    res.status(200).json({ 
+      message: 'Tenant deleted successfully', 
+      property 
+    });
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
   }
@@ -211,6 +244,7 @@ exports.getLandlordNotifications = async (req, res) => {
       property.applicants.forEach((applicant) => {
         applicants.push({
           ...applicant._doc,
+          propertyId: property._id,
           propertyName: property.name, 
           applicantName: applicant.user.name, 
           applicantEmail: applicant.user.email, 
@@ -232,7 +266,55 @@ exports.getLandlordNotifications = async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ 
+      message: 'Server error' 
+    });
   }
 };
 
+exports.acceptApplicant = async (req, res) => {
+  const { propertyId, applicantId, roomNumber } = req.body;
+
+
+  try {
+
+    const property = await Property.findById(propertyId);
+    
+    if (!property) {
+      return res.status(404).json({ success: false, message: 'Property not found' });
+    }
+
+    const applicant = property.applicants.id(applicantId);
+
+    if (!applicant) {
+      return res.status(404).json({ 
+        success: false, 
+        message: 'Applicant not found' 
+      });
+    }
+
+    const tenant = {
+      user: applicant.user,
+      roomNumber: roomNumber, 
+      roomType: applicant.roomType,
+    };
+
+    property.tenants.push(tenant);
+
+    property.applicants = property.applicants.filter(app => app._id.toString() !== applicantId);
+
+    await property.save();
+
+    res.status(200).json({
+      success: true,
+      message: 'Applicant accepted and added as tenant',
+      tenant,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ 
+      success: false, 
+      message: 'Server error'
+     });
+  }
+};
