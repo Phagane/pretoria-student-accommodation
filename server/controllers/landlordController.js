@@ -273,7 +273,7 @@ exports.getLandlordNotifications = async (req, res) => {
 };
 
 exports.acceptApplicant = async (req, res) => {
-  const { propertyId, applicantId, roomNumber } = req.body;
+  const { propertyId, applicantId, roomNumber, roomType } = req.body;
 
 
   try {
@@ -296,7 +296,8 @@ exports.acceptApplicant = async (req, res) => {
     const tenant = {
       user: applicant.user,
       roomNumber: roomNumber, 
-      roomType: applicant.roomType,
+      occupancyType: roomType,
+
     };
 
     property.tenants.push(tenant);
