@@ -2,13 +2,9 @@ import React, { useState } from 'react';
 
 const AddNewTenant = ({ onClose, onAddTenant }) => {
   const [tenantDetails, setTenantDetails] = useState({
-    name: '',
     email: '',
-    phone: '',
     roomNumber: '',
     roomType: '',
-    leaseStartDate: '',
-    leaseEndDate: '',
   });
 
   const handleInputChange = (e) => {
@@ -27,20 +23,6 @@ const AddNewTenant = ({ onClose, onAddTenant }) => {
       <h2 className="text-xl font-semibold mb-4">Add New Tenant</h2>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2 pr-80" htmlFor="name">
-            Name
-          </label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            value={tenantDetails.name}
-            onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
             Email
           </label>
@@ -49,20 +31,6 @@ const AddNewTenant = ({ onClose, onAddTenant }) => {
             name="email"
             type="email"
             value={tenantDetails.email}
-            onChange={handleInputChange}
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="phone">
-            Phone Number
-          </label>
-          <input
-            id="phone"
-            name="phone"
-            type="text"
-            value={tenantDetails.phone}
             onChange={handleInputChange}
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
@@ -96,7 +64,7 @@ const AddNewTenant = ({ onClose, onAddTenant }) => {
             required
           />
         </div>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="leaseStartDate">
             Lease Start Date
           </label>
@@ -123,7 +91,7 @@ const AddNewTenant = ({ onClose, onAddTenant }) => {
             className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             required
           />
-        </div>
+        </div> */}
         <div className="flex items-center justify-between">
           <button
             type="submit"

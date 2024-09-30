@@ -25,7 +25,7 @@ const App = () => {
           <Route path="/home" element={<HomeLayout />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route 
-            path="/properties" 
+            path="/admin-dashboard" 
             element={<ProtectedRoute><LandlordProperties/>
           </ProtectedRoute>} />
           <Route 

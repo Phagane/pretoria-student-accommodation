@@ -49,11 +49,14 @@ const Header = () => {
           <a href="/student-needs" className="text-gray-600 hover:text-gray-800">
             Student Needs
           </a>
-          <a href="/properties" className="text-gray-600 hover:text-gray-800">
-            Properties
+          <a href="/admin-dashboard" className="text-gray-600 hover:text-gray-800">
+            Admin Dashboard
           </a>
           <a href="/about" className="text-gray-600 hover:text-gray-800">
             About Us
+          </a>
+          <a href="/tenant-dashboard" className="text-gray-600 hover:text-gray-800">
+            Tenant Dashboard
           </a>
 
           {/* Notification Icon */}
@@ -96,12 +99,15 @@ const Header = () => {
             <a href="/student-needs" className="text-gray-600 hover:text-gray-800">
               Student Needs
             </a>
-            <a href="/properties" className="text-gray-600 hover:text-gray-800">
-              Properties
+            <a href="/admin-dashboard" className="text-gray-600 hover:text-gray-800">
+              Admin Dashboard
             </a>
             <a href="/about" className="text-gray-600 hover:text-gray-800">
               About Us
             </a>
+            <a href="/tenant-dashboard" className="text-gray-600 hover:text-gray-800">
+            Tenant Dashboard
+          </a>
             <a href="/notifications" className="relative text-gray-600 hover:text-gray-800">
               Notifications
               <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-500 rounded-full"></span>

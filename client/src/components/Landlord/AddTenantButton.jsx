@@ -4,11 +4,9 @@ import axios from 'axios';
 const AddTenantButton = ({ propertyId, onTenantAdded }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [tenantData, setTenantData] = useState({
-    name: '',
     email: '',
-    phone: '',
     roomNumber: '',
-    occupationType: 'other',
+    roomType: 'other',
   });
 
   const handleInputChange = (e) => {
@@ -20,14 +18,14 @@ const AddTenantButton = ({ propertyId, onTenantAdded }) => {
     e.preventDefault();
     try {
       const token = localStorage.getItem('token');
-      await axios.post(`http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}/tenants`, tenantData, {
+      await axios.post(`http://127.0.0.1:8000/api/v1/landlord/add-tenant/${propertyId}`, tenantData, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
       onTenantAdded(); // Refresh tenant list after adding a new tenant
       setIsFormOpen(false); // Close the form after submission
-      setTenantData({ name: '', email: '', phone: '', roomNumber: '', occupationType: 'other' }); // Reset the form
+      setTenantData({ email: '', roomNumber: '', roomType: 'other' }); // Reset the form
     } catch (error) {
       console.error('Error adding tenant:', error);
     }
@@ -45,36 +43,12 @@ const AddTenantButton = ({ propertyId, onTenantAdded }) => {
       {isFormOpen && (
         <form onSubmit={handleFormSubmit} className="mt-4 bg-white shadow-md p-4 rounded-lg">
           <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="name">Name</label>
-            <input
-              id="name"
-              name="name"
-              value={tenantData.name}
-              onChange={handleInputChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
-          <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="email">Email</label>
             <input
               id="email"
               name="email"
               type="email"
               value={tenantData.email}
-              onChange={handleInputChange}
-              required
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label className="block text-gray-700 font-bold mb-2" htmlFor="phone">Phone</label>
-            <input
-              id="phone"
-              name="phone"
-              value={tenantData.phone}
               onChange={handleInputChange}
               required
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
@@ -96,14 +70,14 @@ const AddTenantButton = ({ propertyId, onTenantAdded }) => {
           <div className="mb-4">
             <label className="block text-gray-700 font-bold mb-2" htmlFor="occupationType">Room Type</label>
             <select
-              id="occupationType"
-              name="occupationType"
-              value={tenantData.RoomType}
+              id="roomType"
+              name="roomType"
+              value={tenantData.roomType}
               onChange={handleInputChange}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg"
             >
-              <option value="student">Sharing</option>
-              <option value="professional">Single</option>
+              <option value="sharing">Sharing</option>
+              <option value="single">Single</option>
             </select>
           </div>
 
