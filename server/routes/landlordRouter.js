@@ -12,6 +12,7 @@ const { addProperty,
         acceptViewingRequest,
         rejectViewingRequest,
         updateTenantInfo ,
+        addTenantToProperty,
     } = require('./../controllers/landlordController');
 const { authMiddleware } = require('./../middleware/authMiddleware'); 
 
@@ -30,7 +31,7 @@ router.route('/reject-applicant').post(authMiddleware, rejectApplicant)
 router.route('/accept-viewing-request').post(authMiddleware, acceptViewingRequest)
 router.route('/reject-viewing-request').post(authMiddleware, rejectViewingRequest)
 router.route('/properties/:propertyId/tenants/:tenantId').put(authMiddleware, updateTenantInfo )
-
+router.route('/add-tenant/:propertyId').post(authMiddleware, addTenantToProperty)
 
 
 module.exports = router;
