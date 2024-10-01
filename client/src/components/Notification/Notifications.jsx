@@ -42,7 +42,7 @@ const Notifications = () => {
   const openAcceptForm = (applicantId, propertyId) => {
     setSelectedApplicantId(applicantId);
     setSelectedPropertyId(propertyId);
-    setIsFormVisible(true);
+    setIsFormVisible(true); // Show the form
   };
 
   const handleSubmit = async (e) => {
@@ -67,6 +67,66 @@ const Notifications = () => {
     }
   };
 
+  const handleReject = async (applicantId, propertyId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post('http://127.0.0.1:8000/api/v1/landlord/reject-applicant', {
+        applicantId: applicantId,
+        propertyId: propertyId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert('Applicant rejected successfully');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to reject applicant');
+    }
+  };
+  
+  const handleAcceptViewingRequest = async (propertyId, requestId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://127.0.0.1:8000/api/v1/landlord/accept-viewing-request',
+        { propertyId, 
+          requestId 
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Viewing request accepted and email sent.');
+    } catch (error) {
+      console.error(error);
+      alert('Failed to accept viewing request.');
+    }
+  };
+
+  const handleRejectViewingRequest = async (propertyId, requestId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://127.0.0.1:8000/api/v1/landlord/reject-viewing-request',
+        { propertyId, 
+          requestId 
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Viewing request rejected and email sent.');
+    } catch (error) {
+      console.error(error);
+      alert('Failed to accept viewing request.');
+    }
+  };
+  
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -98,6 +158,7 @@ const Notifications = () => {
                   Accept
                 </button>
                 <button
+                  onClick={() => handleReject(applicant._id, applicant.propertyId)}
                   className="bg-red-600 text-white py-1 px-4 rounded-lg hover:bg-red-700 transition"
                 >
                   Reject
@@ -163,13 +224,13 @@ const Notifications = () => {
               </div>
               <div className="mt-3">
                 <button
-                  /* onClick={() => handleAccept(request._id, 'view request')} */
+                  onClick={() => handleAcceptViewingRequest(request.propertyId, request._id)} 
                   className="bg-green-600 text-white py-1 px-4 rounded-lg mr-2 hover:bg-green-700 transition"
                 >
                   Accept
                 </button>
                 <button
-                 /*  onClick={() => handleReject(request._id, 'view request')} */
+                 onClick={() => handleRejectViewingRequest(request.propertyId, request._id)} 
                   className="bg-red-600 text-white py-1 px-4 rounded-lg hover:bg-red-700 transition"
                 >
                   Reject
