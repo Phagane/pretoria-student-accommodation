@@ -462,9 +462,53 @@ Property Management`,
     property.viewingRequests =  property.viewingRequests.filter(app => app._id.toString() !== requestId);
     await property.save();
 
-    return res.status(200).json({ message: 'Viewing request accepted and email sent to requester.' });
+    return res.status(200).json({ 
+      message: 'Viewing request accepted and email sent to requester.' 
+    });
   } catch (error) {
     console.error('Error accepting viewing request:', error);
-    return res.status(500).json({ message: 'An error occurred while processing the request.' });
+    return res.status(500).json({ 
+      message: 'An error occurred while processing the request.' 
+    });
+  }
+};
+
+exports.updateTenantInfo  = async (req, res) => {
+  const { propertyId, tenantId } = req.params;
+  const { roomNumber, roomType } = req.body;
+
+  try {
+    
+    const property = await Property.findById(propertyId);
+
+    if (!property) {
+      return res.status(404).json({ 
+        message: 'Property not found' 
+      });
+    }
+
+    const tenant = property.tenants.id(tenantId);
+
+    if (!tenant) {
+      return res.status(404).json({ 
+        message: 'Tenant not found' 
+      });
+    }
+
+    tenant.roomNumber = roomNumber || tenant.roomNumber;
+    tenant.roomType = roomType || tenant.roomType;
+
+
+    await property.save();
+
+    res.status(200).json({
+      message: 'Tenant information updated successfully',
+      tenant,
+    });
+  } catch (error) {
+    console.error('Error updating tenant information:', error);
+    res.status(500).json({ 
+      message: 'Internal server error'
+     });
   }
 };
