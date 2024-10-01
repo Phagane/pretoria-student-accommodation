@@ -326,53 +326,6 @@ exports.acceptApplicant = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-// Controller to add a tenant to a property
-exports.addTenantToProperty = async (req, res) => {
-  const {propertyId} = req.params
-  const { email, roomNumber, roomType } = req.body;
-  console.log( email, roomNumber, roomType, propertyId)
-
-  try {
-    // Find the user by email
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
-
-    // Find the property by its ID
-    const property = await Property.findById(propertyId);
-
-    if (!property) {
-      return res.status(404).json({ message: 'Property not found' });
-    }
-
-    // Check if the tenant already exists in the property
-    const existingTenant = property.tenants.find((tenant) => tenant.user.toString() === user._id.toString());
-
-    if (existingTenant) {
-      return res.status(400).json({ message: 'Tenant already exists in this property' });
-    }
-
-    // Create a new tenant object
-    const newTenant = {
-      user: user._id,   // Reference to the user ObjectId
-      roomNumber,
-      roomType,         // Default is 'sharing' if not provided
-    };
-
-    // Add the new tenant to the property's tenants array
-    property.tenants.push(newTenant);
-
-    // Save the updated property document
-    await property.save();
-
-    res.status(201).json({ message: 'Tenant added successfully', property });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-=======
 exports.rejectApplicant = async (req, res) => {
   const { applicantId, propertyId } = req.body;
 
@@ -513,6 +466,5 @@ Property Management`,
   } catch (error) {
     console.error('Error accepting viewing request:', error);
     return res.status(500).json({ message: 'An error occurred while processing the request.' });
->>>>>>> newFeatures
   }
 };
