@@ -131,44 +131,39 @@ exports.getLandlordProperties = async (req, res) => {
   };
 
   exports.addTenantToProperty = async (req, res) => {
-    const { propertyId } = req.params; // Access the propertyId directly from req.params
+    const { propertyId } = req.params; 
     const { email, roomNumber, roomType } = req.body;
     
-    console.log(email, roomNumber, roomType, propertyId);  // This should now log the correct values
+    console.log(email, roomNumber, roomType, propertyId);  
   
     try {
-      // Find the user by email
+     
       const user = await User.findOne({ email });
   
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
   
-      // Find the property by its ID
       const property = await Property.findById(propertyId);
   
       if (!property) {
         return res.status(404).json({ message: 'Property not found' });
       }
-  
-      // Check if the tenant already exists in the property
+
       const existingTenant = property.tenants.find((tenant) => tenant.user.toString() === user._id.toString());
   
       if (existingTenant) {
         return res.status(400).json({ message: 'Tenant already exists in this property' });
       }
-  
-      // Create a new tenant object
+    
       const newTenant = {
-        user: user._id,   // Reference to the user ObjectId
+        user: user._id,  
         roomNumber,
-        roomType,         // Default is 'sharing' if not provided
-      };
-  
-      // Add the new tenant to the property's tenants array
+        roomType,  
+      }; 
+    
       property.tenants.push(newTenant);
-  
-      // Save the updated property document
+
       await property.save();
   
       res.status(201).json({ message: 'Tenant added successfully', property });
@@ -178,7 +173,6 @@ exports.getLandlordProperties = async (req, res) => {
     }
   };
   
-
 exports.getTenants = async (req, res) => {
   const { propertyId } = req.params; 
 
