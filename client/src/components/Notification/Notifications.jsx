@@ -106,6 +106,27 @@ const Notifications = () => {
       alert('Failed to accept viewing request.');
     }
   };
+
+  const handleRejectViewingRequest = async (propertyId, requestId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post(
+        'http://127.0.0.1:8000/api/v1/landlord/reject-viewing-request',
+        { propertyId, 
+          requestId 
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      alert('Viewing request rejected and email sent.');
+    } catch (error) {
+      console.error(error);
+      alert('Failed to accept viewing request.');
+    }
+  };
   
   if (loading) {
     return <div>Loading...</div>;
@@ -210,7 +231,7 @@ const Notifications = () => {
                   Accept
                 </button>
                 <button
-                 /*  onClick={() => handleReject(request._id, 'view request')} */
+                 onClick={() => handleRejectViewingRequest(request.propertyId, request._id)} 
                   className="bg-red-600 text-white py-1 px-4 rounded-lg hover:bg-red-700 transition"
                 >
                   Reject
