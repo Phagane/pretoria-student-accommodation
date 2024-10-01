@@ -4,6 +4,7 @@ import axios from 'axios';
 import LandLordDetails from './LandlordDetails';
 import ViewingRequestForm from './ViewingRequestForm'; 
 import ApplyForAccommodationForm from './ApplyForAccommodationForm';
+import MapComponent from './MapComponent';
 
 const PropertyDetails = () => {
   const { id } = useParams();
@@ -119,6 +120,8 @@ const PropertyDetails = () => {
           </button>
         </div>
       </div>
+      <MapComponent location={{ latitude:-25.74788035909332, longitude:28.11308313460712 }} />
+      
       <LandLordDetails agent={property.agent} />
     </div>
   );

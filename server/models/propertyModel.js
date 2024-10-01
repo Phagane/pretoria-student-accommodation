@@ -16,7 +16,6 @@ const tenantSchema = new mongoose.Schema({
   },
 });
 
-
 const applicantSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
