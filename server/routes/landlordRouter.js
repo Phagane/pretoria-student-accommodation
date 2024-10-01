@@ -33,5 +33,4 @@ router.route('/reject-viewing-request').post(authMiddleware, rejectViewingReques
 router.route('/properties/:propertyId/tenants/:tenantId').put(authMiddleware, updateTenantInfo )
 router.route('/add-tenant/:propertyId').post(authMiddleware, addTenantToProperty)
 
-
 module.exports = router;
