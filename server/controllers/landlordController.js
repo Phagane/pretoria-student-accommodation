@@ -319,3 +319,38 @@ exports.acceptApplicant = async (req, res) => {
      });
   }
 };
+
+exports.rejectApplicant = async (req, res) => {
+  const { applicantId, propertyId } = req.body;
+
+  try {
+   
+    const property = await Property.findById(propertyId);
+    if (!property) {
+      return res.status(404).json({ 
+        message: 'Property not found' 
+      });
+    }
+
+    const applicant = property.applicants.id(applicantId);
+    if (!applicant) {
+      return res.status(404).json({ 
+        message: 'Applicant not found' 
+      });
+    }
+
+   
+    property.applicants = property.applicants.filter(app => app._id.toString() !== applicantId);
+
+    await property.save();
+
+    return res.status(200).json({ 
+      message: 'Applicant rejected successfully' 
+    });
+  } catch (error) {
+    console.error('Error rejecting applicant:', error);
+    return res.status(500).json({ 
+      message: 'Server error' 
+    });
+  }
+};

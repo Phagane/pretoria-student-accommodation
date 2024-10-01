@@ -9,6 +9,7 @@ const { addProperty,
         deleteTenant,
         getLandlordNotifications,
         acceptApplicant,
+        rejectApplicant,
     } = require('./../controllers/landlordController');
 const { authMiddleware } = require('./../middleware/authMiddleware'); 
 
@@ -23,5 +24,6 @@ router.route('/properties/:propertyId/tenants').post(authMiddleware, addTenant).
 router.route('/properties/:propertyId/tenants/:tenantId').delete(authMiddleware, deleteTenant)
 router.route('/notifications').get(authMiddleware, getLandlordNotifications)
 router.route('/accept-applicant').post(authMiddleware, acceptApplicant)
+router.route('/reject-applicant').post(authMiddleware, rejectApplicant)
 
 module.exports = router;

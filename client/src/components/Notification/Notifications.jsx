@@ -42,7 +42,7 @@ const Notifications = () => {
   const openAcceptForm = (applicantId, propertyId) => {
     setSelectedApplicantId(applicantId);
     setSelectedPropertyId(propertyId);
-    setIsFormVisible(true); // Show the form
+    setIsFormVisible(true); 
   };
 
   const handleSubmit = async (e) => {
@@ -67,6 +67,25 @@ const Notifications = () => {
       alert('Failed to accept applicant');
     }
   };
+
+  const handleReject = async (applicantId, propertyId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.post('http://127.0.0.1:8000/api/v1/landlord/reject-applicant', {
+        applicantId: applicantId,
+        propertyId: propertyId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      alert('Applicant rejected successfully');
+    } catch (err) {
+      console.error(err);
+      alert('Failed to reject applicant');
+    }
+  };
+  
 
   if (loading) {
     return <div>Loading...</div>;
@@ -99,6 +118,7 @@ const Notifications = () => {
                   Accept
                 </button>
                 <button
+                  onClick={() => handleReject(applicant._id, applicant.propertyId)}
                   className="bg-red-600 text-white py-1 px-4 rounded-lg hover:bg-red-700 transition"
                 >
                   Reject
