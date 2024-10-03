@@ -10,7 +10,7 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
     furnished: false,
     genderAllowed: 'any', // Default gender option
     occupancyType: 'single', // Default occupancy type
-    image: '',
+    images: [], // Updated to handle multiple images
   });
 
   const [loading, setLoading] = useState(false);
@@ -18,11 +18,19 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
   const [success, setSuccess] = useState(false);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+    const { name, value, type, checked, files } = e.target;
+    if (type === 'file') {
+      const selectedFiles = Array.from(files).slice(0, 5); // Limit to 5 images
+      setFormData((prevData) => ({
+        ...prevData,
+        images: selectedFiles,
+      }));
+    } else {
+      setFormData({
+        ...formData,
+        [name]: type === 'checkbox' ? checked : value,
+      });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -31,14 +39,28 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
     setError(null);
     setSuccess(false);
 
+    const formDataToSubmit = new FormData();
+    // Append regular fields
+    for (const key in formData) {
+      if (key === 'images') {
+        // Append images separately
+        formData.images.forEach((image) => {
+          formDataToSubmit.append('images', image);
+        });
+      } else {
+        formDataToSubmit.append(key, formData[key]);
+      }
+    }
+
     try {
       const token = localStorage.getItem('token'); // Assuming JWT token is stored in localStorage
 
       const response = await axios.post(
         'http://127.0.0.1:8000/api/v1/landlord/addProperty',
-        formData,
+        formDataToSubmit,
         {
           headers: {
+            'Content-Type': 'multipart/form-data', // Set content type for form data
             Authorization: `Bearer ${token}`,
           },
         }
@@ -57,7 +79,7 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
         furnished: false,
         genderAllowed: 'any',
         occupancyType: 'single',
-        image: '',
+        images: [],
       });
     } catch (error) {
       setLoading(false);
@@ -126,16 +148,8 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
           />{' '}
           Yes
         </div>
-        <div className="mb-4">
-          <label className="block text-gray-700">Image URL</label>
-          <input
-            type="text"
-            name="image"
-            value={formData.image}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
+        
+        
 
         {/* Gender Allowed Radio Buttons */}
         <div className="mb-4">
@@ -204,6 +218,19 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
               Sharing
             </label>
           </div>
+        </div>
+
+        {/* Image Upload */}
+        <div className="mb-4">
+          <label className="block text-gray-700 mb-2">Upload Images (Max 5)</label>
+          <input
+            type="file"
+            name="images"
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+            accept="image/*"
+            multiple // Allows multiple file selection
+          />
         </div>
 
         {/* Submit/Cancel Buttons */}
