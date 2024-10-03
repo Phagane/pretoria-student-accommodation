@@ -11,7 +11,7 @@ const FeaturedProperties = () => {
     const fetchProperties = async () => {
       try {
         const response = await axios.get('http://127.0.0.1:8000/api/v1/user/home');
-        setProperties(response.data.properties); 
+        setProperties(response.data.properties); // The response contains the properties with a single image
         setLoading(false);
       } catch (err) {
         console.error('Error fetching properties:', err);
@@ -25,6 +25,7 @@ const FeaturedProperties = () => {
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
+
   return (
     <section className="bg-gray-100 py-8 shadow-lg rounded-lg overflow-hidden p-4 flex flex-col">
       <div className="container mx-auto px-4">
@@ -33,7 +34,7 @@ const FeaturedProperties = () => {
           {properties.map((property) => (
             <div key={property._id} className="bg-white shadow-md rounded-lg overflow-hidden flex flex-col">
               <img
-                src={property.image}
+                src={property.image || '/placeholder-image.jpg'}
                 alt={property.name}
                 className="w-full h-48 object-cover"
               />
@@ -41,10 +42,10 @@ const FeaturedProperties = () => {
               <div className="p-4 flex-grow flex flex-col relative">
                 <h3 className="text-lg font-semibold mb-2">{property.name}</h3>
                 <p className="text-gray-600 mb-2">{property.description}</p>
-                <p className="font-semibold mb-2">{property.price}</p>
+                <p className="font-semibold mb-2">R{property.price}/pm</p>
 
                 <div className="flex justify-between text-sm text-gray-500 mb-2">
-                  <span>Gender: {property.gender}</span>
+                  <span>Gender: {property.genderAllowed}</span>
                 </div>
 
                 <p className="text-sm text-gray-500 mb-4">{property.furnished ? 'Furnished' : 'Unfurnished'}</p>

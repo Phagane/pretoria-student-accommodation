@@ -149,8 +149,6 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
           Yes
         </div>
         
-        
-
         {/* Gender Allowed Radio Buttons */}
         <div className="mb-4">
           <label className="block text-gray-700">Gender Allowed</label>

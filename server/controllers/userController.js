@@ -1,19 +1,30 @@
 const Property = require('./../models/propertyModel')
 const User = require('./../models/userModel')
 
-exports.getProperties = async (req, res) =>{
+exports.getProperties = async (req, res) => {
+  try {
+    
+    const baseURL = 'http://127.0.0.1:8000'; 
 
-    try {
-        const properties = await Property.find();
-        res.status(200).json({
-             properties 
-            });
-      } catch (err) {
-        res.status(500).json({ 
-            message: 'Error fetching properties' 
-        });
-      }
-}
+    const properties = await Property.find().select('name price location furnished genderAllowed occupancyType images').lean();
+
+    const propertiesWithSingleImage = properties.map((property) => ({
+      ...property,
+      image: property.images && property.images.length > 0 ? `${baseURL}${property.images[0]}` : null, // Add full URL for the first image
+    }));
+
+    res.status(200).json({
+      properties: propertiesWithSingleImage,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: 'Error fetching properties',
+      error: err.message,
+    });
+  }
+};
+
+
 
 exports.getPropertyDetails = async (req, res) => {
     try {
