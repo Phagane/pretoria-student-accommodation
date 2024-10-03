@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import LandLordDetails from './LandlordDetails';
-import ViewingRequestForm from './ViewingRequestForm'; 
+import ViewingRequestForm from './ViewingRequestForm';
 import ApplyForAccommodationForm from './ApplyForAccommodationForm';
-import MapComponent from './MapComponent';
 import GoogleMapComponent from './GoogleMapComponent';
 
 const PropertyDetails = () => {
@@ -13,8 +12,8 @@ const PropertyDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [showViewingForm, setShowViewingForm] = useState(false); 
-  const [showApplicationForm, setShowApplicationForm] = useState(false); 
+  const [showViewingForm, setShowViewingForm] = useState(false);
+  const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   useEffect(() => {
     // Fetch property details from the backend
@@ -31,26 +30,21 @@ const PropertyDetails = () => {
 
     fetchProperty();
   }, [id]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  // Render error state
   if (error) {
     return <p className="text-center text-red-500">{error}</p>;
   }
 
-  // Render "property not found" if property is null
   if (!property) {
     return <p className="text-center text-red-500">Property not found.</p>;
   }
-  /* const images = [
-    property.image,
-    property.image2,
-    property.image3,
-    property.image4,
-    property.image5,
-  ];
+
+  // Use all images returned by the controller
+  const images = property.images || [];
 
   const handleNextImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
@@ -58,10 +52,10 @@ const PropertyDetails = () => {
 
   const handlePrevImage = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
-  }; */
+  };
 
   const toggleViewingForm = () => {
-    setShowViewingForm((prevShow) => !prevShow); 
+    setShowViewingForm((prevShow) => !prevShow);
   };
 
   const toggleApplicationForm = () => {
@@ -70,30 +64,34 @@ const PropertyDetails = () => {
 
   return (
     <div className="relative container mx-auto px-4 py-8">
-      {showViewingForm && (
-        <ViewingRequestForm propertyId={property._id} onClose={toggleViewingForm} />
-      )}
+      {showViewingForm && <ViewingRequestForm propertyId={property._id} onClose={toggleViewingForm} />}
       {showApplicationForm && <ApplyForAccommodationForm propertyId={property._id} onClose={toggleApplicationForm} />}
 
       <div className="max-w-2xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden mb-1">
         <div className="relative">
-          {/* <img
-            src={images[currentImageIndex]}
-            alt={`${property.name} - ${currentImageIndex + 1}`}
-            className="w-full h-80 object-cover"
-          />
-          <button
-            onClick={handlePrevImage}
-            className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
-          >
-            &#8249;
-          </button>
-          <button
-            onClick={handleNextImage}
-            className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
-          >
-            &#8250;
-          </button> */}
+          {images.length > 0 ? (
+            <>
+              <img
+                src={images[currentImageIndex]}
+                alt={`${property.name}${currentImageIndex + 1}`}
+                className="w-full h-80 object-cover"
+              />
+              <button
+                onClick={handlePrevImage}
+                className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
+              >
+                &#8249;
+              </button>
+              <button
+                onClick={handleNextImage}
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
+              >
+                &#8250;
+              </button>
+            </>
+          ) : (
+            <p className="text-center text-gray-500">No images available</p>
+          )}
         </div>
 
         <div className="p-6">

@@ -62,7 +62,7 @@ const MapComponent = ({ location }) => {
       const script = document.querySelector(`script[src*="maps.googleapis.com"]`);
       if (script) document.head.removeChild(script);
     };
-  }, [location]);
+  }, []);
 
   return (
     <div ref={mapRef} style={{ height: '400px', width: '100%' }} />

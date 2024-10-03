@@ -27,25 +27,37 @@ exports.getProperties = async (req, res) => {
 
 
 exports.getPropertyDetails = async (req, res) => {
-    try {
-      const { propertyId } = req.params; 
-      console.log(propertyId)
-      const property = await Property.findById(propertyId);
-  
-      if (!property) {
-        return res.status(404).json({
-           message: 'Property not found' 
-          });
-      }
-  
-      res.status(200).json(property);
-    } catch (error) {
-      console.error('Error fetching property:', error);
-      res.status(500).json({ 
-        message: 'Server error' 
+  try {
+    const { propertyId } = req.params;
+    console.log(propertyId);
+
+    // Base URL of your server (adjust this as needed)
+    const baseURL = 'http://127.0.0.1:8000';
+
+    // Find the property by ID
+    const property = await Property.findById(propertyId).lean();
+
+    if (!property) {
+      return res.status(404).json({
+        message: 'Property not found',
       });
     }
-  };
+
+    // Add full URLs to all images
+    const propertyWithFullImageURLs = {
+      ...property,
+      images: property.images.map(image => `${baseURL}${image}`), // Prepend baseURL to each image path
+    };
+
+    res.status(200).json(propertyWithFullImageURLs);
+  } catch (error) {
+    console.error('Error fetching property:', error);
+    res.status(500).json({
+      message: 'Server error',
+    });
+  }
+};
+
 
   exports.applyForAccommodation = async (req, res) => {
     try {
