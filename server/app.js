@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
+const path = require('path');
 const authRouter = require('./routes/authRouter')
 const landlordRouter = require('./routes/landlordRouter')
 const userRouter = require('./routes/userRouter')
@@ -38,6 +39,7 @@ app.get('/', (req, res)=>{
     })
 })
 app.options('*', cors())
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/v1/auth', authRouter)
 app.use('/api/v1/landlord', landlordRouter)
 app.use('/api/v1/user', userRouter)

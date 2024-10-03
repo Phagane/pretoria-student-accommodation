@@ -79,7 +79,15 @@ const propertySchema = new mongoose.Schema({
       required: true,
     },
   },
-  image: String,
+  images: {
+    type: [String],  // Array of strings to store image URLs
+    validate: {
+      validator: function(array) {
+        return array.length <= 5;  // Limit to 5 images
+      },
+      message: 'You can only upload up to 5 images.'
+    }
+  },
   tenants: [tenantSchema],
   applicants: [applicantSchema],  
   viewingRequests: [requestSchema], 

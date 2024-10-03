@@ -3,23 +3,48 @@ const Property = require('../models/propertyModel');
 const User = require('../models/userModel')
 const dotenv = require('dotenv')
 const nodemailer = require('nodemailer');
+const multer = require('multer');
+const path = require('path');
+
 
 dotenv.config({path: './../config/config.env'})
 
-exports.addProperty = async (req, res) => {
-  const {
-    name,
-    description,
-    price,
-    location,
-    furnished,
-    genderAllowed,
-    occupancyType,
-    image,
-  } = req.body;
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // You can define your own path here for storing images
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname)); // Unique file name
+  },
+});
 
-  try {
-    const property = new Property({
+// File filter to allow only images
+const fileFilter = (req, file, cb) => {
+  const fileTypes = /jpeg|jpg|png/;
+  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = fileTypes.test(file.mimetype);
+
+  if (extname && mimetype) {
+    cb(null, true);
+  } else {
+    cb(new Error('Only image files are allowed!'), false);
+  }
+};
+
+// Initialize multer upload with the defined storage and file filter
+const upload = multer({
+  storage,
+  limits: { fileSize: 1024 * 1024 * 5 }, // 5 MB file size limit
+  fileFilter,
+}).array('images', 5);
+
+exports.addProperty = (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ success: false, message: err.message });
+    }
+
+    const {
       name,
       description,
       price,
@@ -27,24 +52,40 @@ exports.addProperty = async (req, res) => {
       furnished,
       genderAllowed,
       occupancyType,
-      image,
-      agent:{
-        email:req.user.email
-      } , 
-    });
+    } = req.body;
 
-    await property.save();
-    res.status(201).json({ 
-        success: true, 
-        message: 'Property added successfully', 
-        property 
-    });
-  } catch (error) {
-    res.status(500).json({ 
-        success: false, 
-        message: 'Error adding property', 
-        error: error.message });
-  }
+    // Extract image URLs
+    const imageUrls = req.files.map(file => `/uploads/${file.filename}`);
+
+    try {
+      const property = new Property({
+        name,
+        description,
+        price,
+        location,
+        furnished,
+        genderAllowed,
+        occupancyType,
+        images: imageUrls,  // Store the array of image URLs
+        agent: {
+          email: req.user.email,
+        },
+      });
+
+      await property.save();
+      res.status(201).json({
+        success: true,
+        message: 'Property added successfully',
+        property,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: 'Error adding property',
+        error: error.message,
+      });
+    }
+  });
 };
 
 exports.getLandlordProperties = async (req, res) => {
