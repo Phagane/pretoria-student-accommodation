@@ -24,12 +24,9 @@ exports.getProperties = async (req, res) => {
   }
 };
 
-
-
 exports.getPropertyDetails = async (req, res) => {
   try {
     const { propertyId } = req.params;
-    console.log(propertyId);
 
     // Base URL of your server (adjust this as needed)
     const baseURL = 'http://127.0.0.1:8000';
