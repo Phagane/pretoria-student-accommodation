@@ -96,15 +96,15 @@ const TenantPropertyDetails = () => {
       <h2 className="text-xl font-semibold mb-4">Accommodation Details</h2>
       <p><strong>Accommodation Name:</strong> {tenant?.propertyName}</p>
       <p><strong>Location:</strong> {tenant?.location}</p>
-      <p><strong>Price:</strong> {tenant?.price}</p>
+      <p><strong>Price:</strong> R{tenant?.price} /pm</p>
       <p><strong>Furnished:</strong> {tenant?.furnished ? 'Yes' : 'No'}</p>
 
       <h2 className="text-xl font-semibold mt-6 mb-4">Lease Details</h2>
       <p><strong>Room Number:</strong> {tenant?.roomNumber}</p>
       <p><strong>Room Type:</strong> {tenant?.roomType}</p>
 
-      {tenant && <CancelContractRequest tenantId={tenant._id} />}
-    </div>
+{/*       {tenant && <CancelContractRequest tenantId={tenant._id} />}
+ */}    </div>
   );
 };
 

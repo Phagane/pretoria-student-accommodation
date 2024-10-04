@@ -148,7 +148,7 @@ const Notifications = () => {
           {notificationsData.applicants.map((applicant) => (
             <li key={applicant._id} className="mb-4 p-4 bg-white rounded-lg shadow-md border">
               <div className="text-lg font-medium">
-                <strong>{applicant.user.name}</strong> applied for a {applicant.roomType} room at {applicant.propertyName}
+                <strong>{applicant.user.name}</strong> applied for a {applicant.roomType.join('or ')} room at {applicant.propertyName}
               </div>
               <div className="mt-3">
                 <button

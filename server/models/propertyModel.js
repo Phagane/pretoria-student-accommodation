@@ -27,8 +27,7 @@ const applicantSchema = new mongoose.Schema({
     enum: ['NSFAS', 'Self funded', 'Private Bursary'],
   },
   roomType: {
-    type: String,
-    enum: ['single', 'sharing'],
+    type: [String],
     default: 'sharing',
   },
 });
