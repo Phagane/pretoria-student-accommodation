@@ -235,7 +235,7 @@ exports.searchProperties = async (req, res) => {
       query.price = { ...query.price, $lte: Number(maxPrice) };
     }
     if (gender) {
-      query.gender = gender;
+      query.genderAllowed = gender;
     }
     if (location) {
       query.location = { $regex: new RegExp(location, 'i') };
