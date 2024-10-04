@@ -101,7 +101,7 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
             <div className="mt-2">
               <label className="inline-flex items-center">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="roomType"
                   value="single"
                   onChange={handleCheckboxChange}
@@ -111,13 +111,23 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
               </label>
               <label className="inline-flex items-center ml-4">
                 <input
-                  type="checkbox"
+                  type="radio"
                   name="roomType"
                   value="sharing"
                   onChange={handleCheckboxChange}
                   className="form-checkbox text-indigo-600"
                 />
                 <span className="ml-2">Sharing</span>
+              </label>
+              <label className="inline-flex items-center ml-4">
+                <input
+                  type="radio"
+                  name="roomType"
+                  value="sharing or single"
+                  onChange={handleCheckboxChange}
+                  className="form-checkbox text-indigo-600"
+                />
+                <span className="ml-2">Any</span>
               </label>
             </div>
           </div>
