@@ -220,48 +220,45 @@ exports.updateUserDetails = async (req, res) => {
 
 exports.searchProperties = async (req, res) => {
   try {
-    // Log the incoming query parameters
-    console.log('Query Params:', req.query);
+    const baseURL = 'http://127.0.0.1:8000'
+    
+    //console.log('Query Params:', req.query);
 
     const { minPrice, maxPrice, gender, location, furnished } = req.query;
 
-    // Initialize an empty query object
     let query = {};
 
-    // Apply the filters only if the corresponding parameters are present
     if (minPrice) {
-      query.price = { ...query.price, $gte: Number(minPrice) }; // Minimum price filter
+      query.price = { ...query.price, $gte: Number(minPrice) }; 
     }
-
     if (maxPrice) {
-      query.price = { ...query.price, $lte: Number(maxPrice) }; // Maximum price filter
+      query.price = { ...query.price, $lte: Number(maxPrice) };
     }
-
     if (gender) {
-      query.gender = gender; // Gender filter
+      query.gender = gender;
     }
-
     if (location) {
-      query.location = { $regex: new RegExp(location, 'i') }; // Case-insensitive location filter
+      query.location = { $regex: new RegExp(location, 'i') };
     }
 
     if (furnished === 'true') {
-      query.furnished = true; // Furnished filter if 'true'
+      query.furnished = true; 
     }
-
-    // Log the constructed query to ensure it's correct
     console.log('Constructed Query:', query);
 
-    // Perform the database query with the constructed filters
-    const properties = await Property.find(query);
+    const properties = await Property.find(query).select('name price location furnished genderAllowed occupancyType images').lean();
 
-    // Log the filtered properties to verify the results
+    const propertiesWithSingleImage = properties.map((property) => ({
+      ...property,
+      image: property.images && property.images.length > 0 ? `${baseURL}${property.images[0]}` : null, // Add full URL for the first image
+    }));
+ 
     console.log('Filtered Properties:', properties);
 
-    // Return the filtered properties
+   
     res.status(200).json({
       success: true,
-      properties,
+      properties:propertiesWithSingleImage,
     });
   } catch (error) {
     console.error(error);
