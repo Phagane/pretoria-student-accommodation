@@ -12,6 +12,8 @@ import ProtectedRoute from './components/Protect/ProtectedRoute';
 import ManageProperty from './components/Landlord/ManageProperty';
 import Notifications from './components/Notification/Notifications';
 import AboutUs from './components/AboutUs/AboutUs';
+import SearchResults from './components/Homepage/SearchResults';
+
 
 const App = () => {
   const exampleTenantId = 1; // Tenant email
@@ -24,6 +26,7 @@ const App = () => {
       <main className='app-main'>
         <Routes>
           <Route path="/" element={<HomeLayout />} />
+          <Route path="/search-results" element={<SearchResults />} />
           <Route path="/property/:id" element={<PropertyDetails />} />
           <Route 
             path="/admin-dashboard" 

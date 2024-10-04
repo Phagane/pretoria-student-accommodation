@@ -217,3 +217,57 @@ exports.updateUserDetails = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+exports.searchProperties = async (req, res) => {
+  try {
+    // Log the incoming query parameters
+    console.log('Query Params:', req.query);
+
+    const { minPrice, maxPrice, gender, location, furnished } = req.query;
+
+    // Initialize an empty query object
+    let query = {};
+
+    // Apply the filters only if the corresponding parameters are present
+    if (minPrice) {
+      query.price = { ...query.price, $gte: Number(minPrice) }; // Minimum price filter
+    }
+
+    if (maxPrice) {
+      query.price = { ...query.price, $lte: Number(maxPrice) }; // Maximum price filter
+    }
+
+    if (gender) {
+      query.gender = gender; // Gender filter
+    }
+
+    if (location) {
+      query.location = { $regex: new RegExp(location, 'i') }; // Case-insensitive location filter
+    }
+
+    if (furnished === 'true') {
+      query.furnished = true; // Furnished filter if 'true'
+    }
+
+    // Log the constructed query to ensure it's correct
+    console.log('Constructed Query:', query);
+
+    // Perform the database query with the constructed filters
+    const properties = await Property.find(query);
+
+    // Log the filtered properties to verify the results
+    console.log('Filtered Properties:', properties);
+
+    // Return the filtered properties
+    res.status(200).json({
+      success: true,
+      properties,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      success: false,
+      message: 'Server error',
+    });
+  }
+};

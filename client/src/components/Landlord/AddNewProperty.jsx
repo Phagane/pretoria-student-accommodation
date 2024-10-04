@@ -22,7 +22,7 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
     if (type === 'file') {
-      const selectedFiles = Array.from(files).slice(0, 5); // Limit to 5 images
+      const selectedFiles = Array.from(files).slice(0, 6); // Limit to 6 images
       setFormData((prevData) => ({
         ...prevData,
         images: selectedFiles,

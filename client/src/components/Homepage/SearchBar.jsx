@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const SearchBar = () => {
   const [minPrice, setMinPrice] = useState('');
@@ -7,9 +9,21 @@ const SearchBar = () => {
   const [location, setLocation] = useState('');
   const [isFurnished, setIsFurnished] = useState(false);
 
-  const handleSearch = () => {
-    console.log({ minPrice, maxPrice, gender, location, isFurnished });
-  };
+  const navigate = useNavigate();
+
+ const handleSearch = () => {
+  const params = new URLSearchParams({
+    minPrice: minPrice,
+    maxPrice: maxPrice,
+    gender: gender,
+    location: location,
+    isFurnished: isFurnished, // Convert boolean to string
+  }).toString(); // Convert the object to query string format
+  
+  // Redirect to the search-results page with the properly formatted query parameters
+  navigate(`/search-results?${params}`);
+};
+
 
   return (
     <div
@@ -31,7 +45,7 @@ const SearchBar = () => {
               id="minPrice"
               value={minPrice}
               onChange={(e) => setMinPrice(e.target.value)}
-              className="mt-1 pt-1 pb-1 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+              className="mt-1 pt-1 pb-1 pl-2 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
               placeholder="Enter minimum price"
             />
           </div>
@@ -45,7 +59,7 @@ const SearchBar = () => {
                 id="maxPrice"
                 value={maxPrice}
                 onChange={(e) => setMaxPrice(e.target.value)}
-                className="mt-1 pt-1 pb-1 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 pt-1 pb-1 pl-2 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter maximum price"
               />
             </div>
@@ -78,7 +92,7 @@ const SearchBar = () => {
                 id="location"
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="mt-1 pt-1 pb-1 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                className="mt-1 pt-1 pb-1 pl-2 block w-full border-2 border-indigo-600 rounded-md shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                 placeholder="Enter location"
               />
             </div>
