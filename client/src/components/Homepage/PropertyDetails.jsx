@@ -119,7 +119,7 @@ const PropertyDetails = () => {
           </button>
         </div>
       </div>
-      <GoogleMapComponent location={{ latitude: property.latitute , longitude: property.longitude}} />
+      <GoogleMapComponent location={{ latitude: property.latitude , longitude: property.longitude}} />
       <LandLordDetails agent={property.agent} />
     </div>
   );

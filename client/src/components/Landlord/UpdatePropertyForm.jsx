@@ -8,6 +8,8 @@ const UpdatePropertyForm = ({ propertyId, initialData, onClose, onUpdate }) => {
     price: initialData.price,
     location: initialData.location,
     furnished: initialData.furnished,
+    latitude: initialData.latitude,
+    longitude: initialData.longitude
   });
 
   const handleInputChange = (e) => {
@@ -94,7 +96,32 @@ const UpdatePropertyForm = ({ propertyId, initialData, onClose, onUpdate }) => {
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             />
           </div>
-
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="latitude">
+            Location Map Latitude:
+            </label>
+            <input
+              type="text"
+              id="latitude"
+              name="latitude"
+              value={formData.latitude}
+              onChange={handleInputChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="longitude">
+            Location Map Longitude:
+            </label>
+            <input
+              type="text"
+              id="longitude"
+              name="longitude"
+              value={formData.longitude}
+              onChange={handleInputChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            />
+          </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2">
               Furnished:
