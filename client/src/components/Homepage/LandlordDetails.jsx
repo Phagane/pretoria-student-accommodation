@@ -14,7 +14,7 @@ const LandLordDetails = ({ agent }) => {
         <div>
           <p className="text-md font-bold mb-1">{agent.name}</p>
           <p className="text-gray-500 mb-1">Email: <a href={`mailto:${agent.email}`} className="text-violet-700">{agent.email}</a></p>
-          <p className="text-gray-500 mb-2">Phone: {agent.phoneNumber}</p>
+          <p className="text-gray-500 mb-2">Phone: 0{agent.phoneNum}</p>
         </div>
       </div>
     </div>

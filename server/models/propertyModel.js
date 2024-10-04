@@ -78,6 +78,10 @@ const propertySchema = new mongoose.Schema({
       type: String,
       required: true,
     },
+    phoneNum:{
+      type: Number,
+      required: true,
+    }
   },
   images: {
     type: [String],  // Array of strings to store image URLs
@@ -87,6 +91,12 @@ const propertySchema = new mongoose.Schema({
       },
       message: 'You can only upload up to 5 images.'
     }
+  },
+  longitude:{
+    type: String
+  },
+  latitude:{
+    type: String,
   },
   tenants: [tenantSchema],
   applicants: [applicantSchema],  

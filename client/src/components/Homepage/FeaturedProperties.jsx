@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { FaWhatsapp } from 'react-icons/fa'; // Import WhatsApp icon
 import axios from 'axios';
 
 const FeaturedProperties = () => {
@@ -51,11 +52,21 @@ const FeaturedProperties = () => {
                 <p className="text-sm text-gray-500 mb-4">{property.furnished ? 'Furnished' : 'Unfurnished'}</p>
                 <p className="text-sm text-gray-500 mb-4">Location: {property.location}</p>
                 
-                <Link to={`/property/${property._id}`}>
-                  <button className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
-                  View Property
-                </button>
-              </Link>
+                <div className="flex justify-between items-center mt-4"> {/* Flex container for button and icon */}
+                  <Link to={`/property/${property._id}`}>
+                    <button className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+                      View Property
+                    </button>
+                  </Link>
+                  <a
+                    href={`https://wa.me/?0835138975?text=I'm%20interested%20in%20the%20property%20$${property.name}`} // WhatsApp link
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-600 hover:text-green-800 ml-2" // Add a smaller left margin
+                  >
+                    <FaWhatsapp size={28} /> {/* Increase icon size */}
+                  </a>
+                </div>
               </div>
             </div>
           ))}

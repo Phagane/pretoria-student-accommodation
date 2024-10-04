@@ -7,6 +7,8 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
     description: '',
     price: '',
     location: '',
+    latitude: '',
+    longitude: '',
     furnished: false,
     genderAllowed: 'any', // Default gender option
     occupancyType: 'single', // Default occupancy type
@@ -76,6 +78,8 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
         description: '',
         price: '',
         location: '',
+        latitude: '',
+        longitude: '',
         furnished: false,
         genderAllowed: 'any',
         occupancyType: 'single',
@@ -133,6 +137,28 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
             type="text"
             name="location"
             value={formData.location}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Location Map Latitude</label>
+          <input
+            type="text"
+            name="latitude"
+            value={formData.latitude}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-gray-700">Location Map Longitude</label>
+          <input
+            type="text"
+            name="longitude"
+            value={formData.longitude}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
             required

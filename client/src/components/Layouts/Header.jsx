@@ -26,7 +26,7 @@ const Header = () => {
             alt="App Logo"
             className="h-20 w-20 mr-2"
           />
-          <a href="/home" className="font-semibold text-xl text-gray-800">
+          <a href="/" className="font-semibold text-xl text-gray-800">
             Pretoria Student Accommodations
           </a>
         </div>
@@ -43,7 +43,7 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <nav className="hidden lg:flex items-center space-x-6">
-          <a href="/home" className="text-gray-600 hover:text-gray-800">
+          <a href="/" className="text-gray-600 hover:text-gray-800">
             Home
           </a>
           <a href="/student-needs" className="text-gray-600 hover:text-gray-800">
@@ -93,7 +93,7 @@ const Header = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <a href="/home" className="text-gray-600 hover:text-gray-800">
+            <a href="/" className="text-gray-600 hover:text-gray-800">
               Home
             </a>
             <a href="/student-needs" className="text-gray-600 hover:text-gray-800">

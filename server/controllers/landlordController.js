@@ -52,6 +52,8 @@ exports.addProperty = (req, res) => {
       furnished,
       genderAllowed,
       occupancyType,
+      latitude,
+      longitude,
     } = req.body;
 
     // Extract image URLs
@@ -69,7 +71,10 @@ exports.addProperty = (req, res) => {
         images: imageUrls,  // Store the array of image URLs
         agent: {
           email: req.user.email,
+          phoneNum: req.user.phoneNumber
         },
+        latitude,
+        longitude,
       });
 
       await property.save();

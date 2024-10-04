@@ -45,7 +45,7 @@ exports.getPropertyDetails = async (req, res) => {
       ...property,
       images: property.images.map(image => `${baseURL}${image}`), // Prepend baseURL to each image path
     };
-
+console.log(propertyWithFullImageURLs)
     res.status(200).json(propertyWithFullImageURLs);
   } catch (error) {
     console.error('Error fetching property:', error);

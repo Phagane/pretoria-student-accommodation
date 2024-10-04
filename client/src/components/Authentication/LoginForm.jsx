@@ -22,7 +22,7 @@ const LoginForm = () => {
 
 
       if (response.data.status === 'success') {
-        navigate('/home');
+        navigate('/');
       } else {
         setError(response.data.message);
       }
