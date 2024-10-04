@@ -116,15 +116,27 @@ exports.getLandlordProperties = async (req, res) => {
   exports.getPropertyById = async (req, res) => {
     try {
       const { propertyId } = req.params;
-      const property = await Property.findById(propertyId);
+
+      const baseURL = 'http://127.0.0.1:8000';
+
+      const property = await Property.findById(propertyId).lean();
+      console.log(property)
   
       if (!property) {
         return res.status(404).json({ 
           message: 'Property not found' 
         });
       }
-  
-      res.status(200).json({ property });
+
+      const propertyWithFullImageURLs = {
+        ...property,
+        images: property.images.map(image => `${baseURL}${image}`), // Prepend baseURL to each image path
+      };
+
+      console.log(propertyWithFullImageURLs)
+
+      res.status(200).json(propertyWithFullImageURLs);
+
     } catch (error) {
       console.error('Error fetching property:', error);
       res.status(500).json({ message: 'Server error' });

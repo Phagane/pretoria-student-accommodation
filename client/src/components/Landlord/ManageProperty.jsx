@@ -21,7 +21,7 @@ const ManageProperty = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setProperty(response.data.property);
+        setProperty(response.data);
         setLoading(false);
       } catch (err) {
         console.error(err);
@@ -65,6 +65,22 @@ const ManageProperty = () => {
       )}
 
       <h2 className="text-2xl font-semibold mb-6">Manage {property.name}</h2>
+      {property.images && property.images.length > 0 && (
+        <div className="bg-white shadow-md rounded-lg p-2 mb-6">
+          <h3 className="text-xl font-semibold mb-4"></h3>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {property.images.map((imageUrl, index) => (
+              <div key={index} className="w-full h-64">
+                <img
+                  src={imageUrl}
+                  alt={`Property Image ${index + 1}`}
+                  className="w-full h-full object-cover"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
         <h3 className="text-xl font-semibold mb-2">Property Details</h3>
         <p className="text-gray-600 mb-2">{property.description}</p>
