@@ -4,17 +4,17 @@ import { useNavigate } from 'react-router-dom';
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null); // 'tenant' or 'landlord'
+  const [userRole, setUserRole] = useState(null); 
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Simulate checking for authentication and role from localStorage
-    const token = localStorage.getItem('token'); // Token indicates if user is logged in
-    const role = localStorage.getItem('role'); // This should be 'tenant' or 'landlord'
+    
+    const token = localStorage.getItem('token'); 
+    const role = localStorage.getItem('role'); 
 
     if (token) {
       setIsAuthenticated(true);
-      setUserRole(role); // Set user role to either 'tenant' or 'landlord'
+      setUserRole(role);
     }
   }, []);
 

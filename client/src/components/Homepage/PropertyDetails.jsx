@@ -15,6 +15,8 @@ const PropertyDetails = () => {
   const [showViewingForm, setShowViewingForm] = useState(false);
   const [showApplicationForm, setShowApplicationForm] = useState(false);
 
+  const userRole = localStorage.getItem('role')
+
   useEffect(() => {
     // Fetch property details from the backend
     const fetchProperty = async () => {
@@ -105,18 +107,22 @@ const PropertyDetails = () => {
           <p className="text-gray-500 mb-2">Furnished: {property.furnished ? 'Yes' : 'No'}</p>
           <p className="text-gray-500 mb-2">Location: {property.location}</p>
 
-          <button
-            onClick={toggleApplicationForm}
-            className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"
-          >
-            Apply For Accommodation
-          </button>
-          <button
-            onClick={toggleViewingForm}
-            className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"
-          >
-            Request to View
-          </button>
+          {userRole !== 'landlord' && (
+            <>
+              <button
+                onClick={toggleApplicationForm}
+                className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"
+              >
+                Apply For Accommodation
+              </button>
+              <button
+                onClick={toggleViewingForm}
+                className="bg-violet-700 text-white py-2 px-4 rounded-lg hover:bg-black focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 mt-2 ml-2"
+              >
+                Request to View
+              </button>
+            </>
+          )}
         </div>
       </div>
       <GoogleMapComponent location={{ latitude: property.latitude , longitude: property.longitude}} />
