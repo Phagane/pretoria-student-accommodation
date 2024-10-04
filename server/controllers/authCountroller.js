@@ -100,10 +100,13 @@ exports.signIn = async (req, res)=>{
             email: user.email,
           }
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:'5h'})
-        
+        const role = user.role
+
+        console.log('this user is a : ', role)
         res.status(200).json({
             status: 'success',
             token,
+            role,
         })
 
     }catch(err){

@@ -19,6 +19,7 @@ const LoginForm = () => {
         password,
       });
       localStorage.setItem('token', response.data.token);
+      localStorage.setItem('role', response.data.role);
 
 
       if (response.data.status === 'success') {

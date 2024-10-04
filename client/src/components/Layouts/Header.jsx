@@ -1,11 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [userRole, setUserRole] = useState(null); // 'tenant' or 'landlord'
   const navigate = useNavigate();
 
-  
+  useEffect(() => {
+    // Simulate checking for authentication and role from localStorage
+    const token = localStorage.getItem('token'); // Token indicates if user is logged in
+    const role = localStorage.getItem('role'); // This should be 'tenant' or 'landlord'
+
+    if (token) {
+      setIsAuthenticated(true);
+      setUserRole(role); // Set user role to either 'tenant' or 'landlord'
+    }
+  }, []);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -13,6 +24,8 @@ const Header = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    setIsAuthenticated(false);
     navigate('/signin');
   };
 
@@ -43,43 +56,31 @@ const Header = () => {
 
         {/* Desktop Menu */}
         <nav className="hidden lg:flex items-center space-x-6">
-          <a href="/" className="text-gray-600 hover:text-gray-800">
-            Home
-          </a>
-          <a href="/student-needs" className="text-gray-600 hover:text-gray-800">
-            Student Needs
-          </a>
-          <a href="/admin-dashboard" className="text-gray-600 hover:text-gray-800">
-            Admin Dashboard
-          </a>
-          <a href="/about" className="text-gray-600 hover:text-gray-800">
-            About Us
-          </a>
-          <a href="/tenant-dashboard" className="text-gray-600 hover:text-gray-800">
-            Tenant Dashboard
-          </a>
+          <a href="/" className="text-gray-600 hover:text-gray-800">Home</a>
+          <a href="/about" className="text-gray-600 hover:text-gray-800">About Us</a>
 
-          {/* Notification Icon */}
-          <a href="/notifications" className="relative text-gray-600 hover:text-gray-800">
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.437L4 17h5m6 0v1a3 3 0 01-6 0v-1m6 0H9"></path>
-            </svg>
-            <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-          </a>
-
-          <a href="/signin" className="text-gray-600 hover:text-gray-800">
-            Login
-          </a>
-          <a href="/signin" onClick={handleLogout} className="text-gray-600 hover:text-gray-800">
-            Logout
-          </a>
+          {/* Conditional rendering based on user authentication and role */}
+          {isAuthenticated ? (
+            <>
+              {userRole === 'tenant' && (
+                <>
+                  <a href="/tenant-dashboard" className="text-gray-600 hover:text-gray-800">Tenant Dashboard</a>
+                </>
+              )}
+              {userRole === 'landlord' && (
+                <>
+                  <a href="/admin-dashboard" className="text-gray-600 hover:text-gray-800">Admin Dashboard</a>
+                  <a href="/notifications" className="text-gray-600 hover:text-gray-800 relative">
+                    Notifications
+                    <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                  </a>
+                </>
+              )}
+              <a href="/signin" onClick={handleLogout} className="text-gray-600 hover:text-gray-800">Logout</a>
+            </>
+          ) : (
+            <a href="/signin" className="text-gray-600 hover:text-gray-800">Login</a>
+          )}
         </nav>
 
         {/* Mobile Menu */}
@@ -93,31 +94,31 @@ const Header = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            <a href="/" className="text-gray-600 hover:text-gray-800">
-              Home
-            </a>
-            <a href="/student-needs" className="text-gray-600 hover:text-gray-800">
-              Student Needs
-            </a>
-            <a href="/admin-dashboard" className="text-gray-600 hover:text-gray-800">
-              Admin Dashboard
-            </a>
-            <a href="/about" className="text-gray-600 hover:text-gray-800">
-              About Us
-            </a>
-            <a href="/tenant-dashboard" className="text-gray-600 hover:text-gray-800">
-            Tenant Dashboard
-          </a>
-            <a href="/notifications" className="relative text-gray-600 hover:text-gray-800">
-              Notifications
-              <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-500 rounded-full"></span>
-            </a>
-            <a href="/signin" className="text-gray-600 hover:text-gray-800">
-              Login
-            </a>
-            <a href="/signin" onClick={handleLogout} className="text-gray-600 hover:text-gray-800">
-            Logout
-          </a>
+            <a href="/" className="text-gray-600 hover:text-gray-800">Home</a>
+            <a href="/about" className="text-gray-600 hover:text-gray-800">About Us</a>
+
+            {isAuthenticated ? (
+              <>
+                {userRole === 'tenant' && (
+                  <>
+                    <a href="/tenant-dashboard" className="text-gray-600 hover:text-gray-800">Tenant Dashboard</a>
+                    
+                  </>
+                )}
+                {userRole === 'landlord' && (
+                  <>
+                    <a href="/admin-dashboard" className="text-gray-600 hover:text-gray-800">Admin Dashboard</a>
+                    <a href="/notifications" className="relative text-gray-600 hover:text-gray-800">
+                      Notifications
+                      <span className="absolute top-0 right-0 inline-block w-2.5 h-2.5 bg-red-500 rounded-full"></span>
+                    </a>
+                  </>
+                )}
+                <a href="/signin" onClick={handleLogout} className="text-gray-600 hover:text-gray-800">Logout</a>
+              </>
+            ) : (
+              <a href="/signin" className="text-gray-600 hover:text-gray-800">Login</a>
+            )}
           </nav>
         )}
       </div>
