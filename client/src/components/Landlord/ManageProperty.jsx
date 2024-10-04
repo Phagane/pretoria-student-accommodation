@@ -84,7 +84,7 @@ const ManageProperty = () => {
       <div className="bg-white shadow-md rounded-lg p-6 mb-6">
         <h3 className="text-xl font-semibold mb-2">Property Details</h3>
         <p className="text-gray-600 mb-2">{property.description}</p>
-        <p className="font-bold mb-2">Price: {property.price}</p>
+        <p className="font-bold mb-2">Price: R{property.price}/pm</p>
         <p className="text-gray-500 mb-2">Location: {property.location}</p>
         <p className="text-gray-500 mb-2">Furnished: {property.furnished ? 'Yes' : 'No'}</p>
 

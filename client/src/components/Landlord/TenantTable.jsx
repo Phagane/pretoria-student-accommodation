@@ -72,6 +72,13 @@ const TenantTable = ({ propertyId, onTenantRemoved }) => {
 
   const handleDelete = async (tenantId) => {
     try {
+
+      const isConfirmed = window.confirm("Are you sure you want to remove this tenant?");
+  
+      if (!isConfirmed) {
+        return;
+      }
+
       const token = localStorage.getItem('token');
       const response = await axios.delete(
         `http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}/tenants/${tenantId}`,

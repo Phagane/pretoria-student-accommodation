@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate} from 'react-router-dom';
+
 
 const AddTenantButton = ({ propertyId, onTenantAdded }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [tenantData, setTenantData] = useState({
     email: '',
     roomNumber: '',
-    roomType: 'other',
+    roomType: 'sharing',
   });
+  const navigate = useNavigate();
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +30,7 @@ const AddTenantButton = ({ propertyId, onTenantAdded }) => {
       onTenantAdded(); // Refresh tenant list after adding a new tenant
       setIsFormOpen(false); // Close the form after submission
       setTenantData({ email: '', roomNumber: '', roomType: 'other' }); // Reset the form
+      navigate(`/properties/${propertyId}`)
     } catch (error) {
       console.error('Error adding tenant:', error);
     }

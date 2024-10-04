@@ -36,7 +36,7 @@ const upload = multer({
   storage,
   limits: { fileSize: 1024 * 1024 * 5 }, // 5 MB file size limit
   fileFilter,
-}).array('images', 5);
+}).array('images', 6);
 
 exports.addProperty = (req, res) => {
   upload(req, res, async (err) => {

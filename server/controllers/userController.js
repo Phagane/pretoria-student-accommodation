@@ -28,10 +28,8 @@ exports.getPropertyDetails = async (req, res) => {
   try {
     const { propertyId } = req.params;
 
-    // Base URL of your server (adjust this as needed)
     const baseURL = 'http://127.0.0.1:8000';
 
-    // Find the property by ID
     const property = await Property.findById(propertyId).lean();
 
     if (!property) {
@@ -40,10 +38,9 @@ exports.getPropertyDetails = async (req, res) => {
       });
     }
 
-    // Add full URLs to all images
     const propertyWithFullImageURLs = {
       ...property,
-      images: property.images.map(image => `${baseURL}${image}`), // Prepend baseURL to each image path
+      images: property.images.map(image => `${baseURL}${image}`),
     };
 console.log(propertyWithFullImageURLs)
     res.status(200).json(propertyWithFullImageURLs);

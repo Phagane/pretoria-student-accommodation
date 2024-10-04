@@ -86,7 +86,7 @@ const propertySchema = new mongoose.Schema({
     type: [String],  
     validate: {
       validator: function(array) {
-        return array.length <= 5; 
+        return array.length <= 6; 
       },
       message: 'You can only upload up to 5 images.'
     }

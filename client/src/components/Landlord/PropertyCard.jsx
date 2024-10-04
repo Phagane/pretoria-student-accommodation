@@ -12,7 +12,7 @@ const PropertyCard = ({ property }) => {
     <div className="border rounded-lg p-4 shadow-md mb-4">
       <h3 className="text-xl font-semibold mb-2">{property.name}</h3>
       <p><strong>Location:</strong> {property.location}</p>
-      <p><strong>Rent:</strong> R{property.price}</p>
+      <p><strong>Rent:</strong> R{property.price}/pm</p>
       <p><strong>Description:</strong> {property.description}</p>
       <p><strong>Gender Allowed:</strong> {property.genderAllowed}</p>
       <p><strong>Room Type:</strong> {property.occupancyType}</p>
