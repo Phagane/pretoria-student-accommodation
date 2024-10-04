@@ -38,7 +38,7 @@ const App = () => {
           </ProtectedRoute>} />
           <Route 
             path="/tenant-dashboard" 
-            element={<ProtectedRoute><TenantDashboard tenantId={exampleTenantId} />
+            element={<ProtectedRoute><TenantDashboard />
           </ProtectedRoute>} />
           <Route path='/about' element={<AboutUs />} />
           <Route path='/notifications' element={<Notifications />} />

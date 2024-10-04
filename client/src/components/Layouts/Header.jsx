@@ -22,7 +22,7 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center">
           <img
-            src="./real-estate-logo.png"
+            src="/real-estate-logo.png"
             alt="App Logo"
             className="h-20 w-20 mr-2"
           />
