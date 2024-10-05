@@ -11,6 +11,8 @@ const ViewingRequestForm = ({ onClose, propertyId}) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    const baseUrl = process.env.REACT_APP_API_URL;
+
     const formData = {
       name,
       email,
@@ -19,7 +21,7 @@ const ViewingRequestForm = ({ onClose, propertyId}) => {
     };
     try {
      
-      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/request`, formData);
+      const response = await axios.post(`${baseUrl}/user/property/${propertyId}/request`, formData);
       console.log('Request submitted:', response.data);
       alert("Request Submitted")
       onClose(); 

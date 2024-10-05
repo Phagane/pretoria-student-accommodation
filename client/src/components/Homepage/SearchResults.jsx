@@ -13,6 +13,9 @@ const SearchResults = () => {
 
   useEffect(() => {
     const fetchFilteredProperties = async () => {
+
+      const baseUrl = process.env.REACT_APP_API_URL;
+
       try {
         const params = {
           minPrice: searchParams.get('minPrice'),
@@ -22,7 +25,7 @@ const SearchResults = () => {
           furnished: searchParams.get('isFurnished'),
         };
 
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/user/search', {
+        const response = await axios.get(`${baseUrl}/user/search`, {
           params, // Send search params as query
         });
         

@@ -8,10 +8,14 @@ const FeaturedProperties = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
   useEffect(() => {
     const fetchProperties = async () => {
+      
+      const baseUrl = process.env.REACT_APP_API_URL;
+
       try {
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/user/home');
+        const response = await axios.get(`${baseUrl}/user/home`);
         setProperties(response.data.properties); // The response contains the properties with a single image
         setLoading(false);
       } catch (err) {

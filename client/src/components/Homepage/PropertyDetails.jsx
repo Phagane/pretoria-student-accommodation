@@ -18,10 +18,13 @@ const PropertyDetails = () => {
   const userRole = localStorage.getItem('role')
 
   useEffect(() => {
-    // Fetch property details from the backend
+    
     const fetchProperty = async () => {
+
+      const baseUrl = process.env.REACT_APP_API_URL;
+
       try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/user/property/${id}`);
+        const response = await axios.get(`${baseUrl}/user/property/${id}`);
         setProperty(response.data);
         setLoading(false);
       } catch (err) {
