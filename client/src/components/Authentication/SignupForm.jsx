@@ -25,8 +25,10 @@ const SignupForm = () => {
       return;
     }
 
+    const baseUrl = process.env.REACT_APP_API_URL;
+
     try {
-      const response = await axios.post('http://127.0.0.1:8000/api/v1/auth/signup', {
+      const response = await axios.post(`${baseUrl}/auth/signup`, {
         name,
         email,
         password,
