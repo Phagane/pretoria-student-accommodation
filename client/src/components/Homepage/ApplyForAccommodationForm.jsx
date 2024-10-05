@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import apiClient from '../../utils/apiClient';
 
 const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
   const [fundingType, setFundingType] = useState('');
@@ -32,14 +32,9 @@ const ApplyForAccommodationForm = ({ onClose, propertyId }) => {
     };
 
     try {
-      const token = localStorage.getItem('token'); // Assuming JWT token is stored in localStorage
 
-      const response = await axios.post(`http://127.0.0.1:8000/api/v1/user/property/${propertyId}/apply`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log('Application submitted:', response.data);
+      const response = await apiClient.post(`/user/property/${propertyId}/apply`, formData);
+
       alert('Application Submitted');
       onClose();
     } catch (error) {

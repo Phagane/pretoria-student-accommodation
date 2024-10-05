@@ -17,10 +17,9 @@ const SearchBar = () => {
     maxPrice: maxPrice,
     gender: gender,
     location: location,
-    isFurnished: isFurnished, // Convert boolean to string
-  }).toString(); // Convert the object to query string format
+    isFurnished: isFurnished, 
+  }).toString(); 
   
-  // Redirect to the search-results page with the properly formatted query parameters
   navigate(`/search-results?${params}`);
 };
 
