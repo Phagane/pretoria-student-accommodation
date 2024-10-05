@@ -4,6 +4,8 @@ import axios from 'axios';
 
 const LoginForm = () => {
 
+  const baseUrl = process.env.REACT_APP_API_URL;
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -14,7 +16,7 @@ const LoginForm = () => {
 
     try {
 
-      const response = await axios.post('http://127.0.0.1:8000/api/v1/auth/sign-in', {
+      const response = await axios.post(`${baseUrl}/auth/sign-in`, {
         email,
         password,
       });

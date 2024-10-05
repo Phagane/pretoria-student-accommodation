@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../../utils/apiClient';
 
 const Notifications = () => {
   const [notificationsData, setNotificationsData] = useState({
@@ -17,14 +17,9 @@ const Notifications = () => {
 
   useEffect(() => {
     const fetchNotifications = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/landlord/notifications', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      try {     
+
+         const response = await apiClient.get('/landlord/notifications')
 
         setNotificationsData({
           applicants: response.data.applicants,
@@ -50,15 +45,13 @@ const Notifications = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://127.0.0.1:8000/api/v1/landlord/accept-applicant',
-        { applicantId: selectedApplicantId, propertyId: selectedPropertyId, roomNumber, roomType },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+     
+      await apiClient.post(
+        '/landlord/accept-applicant',
+        { applicantId: selectedApplicantId, 
+          propertyId: selectedPropertyId, 
+          roomNumber, 
+          roomType },
       );
       alert('Applicant accepted and added as tenant');
       setIsFormVisible(false); 
@@ -70,14 +63,10 @@ const Notifications = () => {
 
   const handleReject = async (applicantId, propertyId) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.post('http://127.0.0.1:8000/api/v1/landlord/reject-applicant', {
+
+      await apiClient.post('/landlord/reject-applicant', {
         applicantId: applicantId,
         propertyId: propertyId,
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
       });
       alert('Applicant rejected successfully');
     } catch (err) {
@@ -88,17 +77,13 @@ const Notifications = () => {
   
   const handleAcceptViewingRequest = async (propertyId, requestId) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://127.0.0.1:8000/api/v1/landlord/accept-viewing-request',
+   
+      await apiClient.post(
+        '/landlord/accept-viewing-request',
         { propertyId, 
           requestId 
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        
       );
       alert('Viewing request accepted and email sent.');
     } catch (error) {
@@ -109,17 +94,12 @@ const Notifications = () => {
 
   const handleRejectViewingRequest = async (propertyId, requestId) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(
-        'http://127.0.0.1:8000/api/v1/landlord/reject-viewing-request',
+
+      await apiClient.post(
+        '/landlord/reject-viewing-request',
         { propertyId, 
           requestId 
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
       );
       alert('Viewing request rejected and email sent.');
     } catch (error) {
@@ -149,7 +129,7 @@ const Notifications = () => {
           {notificationsData.applicants.map((applicant) => (
             <li key={applicant._id} className="mb-4 p-4 bg-white rounded-lg shadow-md border">
               <div className="text-lg font-medium">
-                <strong>{applicant.user.name}</strong> applied for a {applicant.roomType.join('or ')} room at {applicant.propertyName}
+                <strong>{applicant.user.name}</strong> applied for a {applicant.roomType} room at {applicant.propertyName}
               </div>
               <div className="mt-3">
                 <button

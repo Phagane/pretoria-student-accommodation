@@ -60,7 +60,7 @@ const FeaturedProperties = () => {
                     </button>
                   </Link>
                   <a
-                    href={`https://wa.me/?0835138975?text=I'm%20interested%20in%20the%20property%20$${property.name}`} // WhatsApp link
+                    href={`https://wa.me/?888888?text=I'm%20interested%20in%20the%20property%20$${property.name}`} // WhatsApp link
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-green-600 hover:text-green-800 ml-2" // Add a smaller left margin
