@@ -117,10 +117,9 @@ exports.getLandlordProperties = async (req, res) => {
     try {
       const { propertyId } = req.params;
 
-      const baseURL = 'http://127.0.0.1:8000';
+      const baseURL = `${process.env.BASE_URL}`
 
       const property = await Property.findById(propertyId).lean();
-      console.log(property)
   
       if (!property) {
         return res.status(404).json({ 
@@ -132,8 +131,6 @@ exports.getLandlordProperties = async (req, res) => {
         ...property,
         images: property.images.map(image => `${baseURL}${image}`), // Prepend baseURL to each image path
       };
-
-      console.log(propertyWithFullImageURLs)
 
       res.status(200).json(propertyWithFullImageURLs);
 
@@ -191,9 +188,7 @@ exports.getLandlordProperties = async (req, res) => {
   exports.addTenantToProperty = async (req, res) => {
     const { propertyId } = req.params; 
     const { email, roomNumber, roomType } = req.body;
-    
-    console.log(email, roomNumber, roomType, propertyId);  
-  
+      
     try {
      
       const user = await User.findOne({ email });

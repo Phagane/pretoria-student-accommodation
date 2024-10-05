@@ -1,13 +1,17 @@
 const Property = require('./../models/propertyModel')
 const User = require('./../models/userModel')
+const dotenv = require('dotenv')
+const path = require('path');
+
+dotenv.config({path: './../config/config.env'})
 
 exports.getProperties = async (req, res) => {
   try {
     
-    const baseURL = 'http://127.0.0.1:8000'; 
+    const baseURL = `${process.env.BASE_URL}`
 
     const properties = await Property.find().select('name price location furnished genderAllowed occupancyType images').lean();
-
+    
     const propertiesWithSingleImage = properties.map((property) => ({
       ...property,
       image: property.images && property.images.length > 0 ? `${baseURL}${property.images[0]}` : null, // Add full URL for the first image
@@ -28,9 +32,9 @@ exports.getPropertyDetails = async (req, res) => {
   try {
     const { propertyId } = req.params;
 
-    const baseURL = 'http://127.0.0.1:8000';
+    const baseURL = `${process.env.BASE_URL}`
 
-    const property = await Property.findById(propertyId).lean();
+    const property = await Property.findById(propertyId).lean().select('-tenants -applicants -viewingRequests');
 
     if (!property) {
       return res.status(404).json({
@@ -42,7 +46,7 @@ exports.getPropertyDetails = async (req, res) => {
       ...property,
       images: property.images.map(image => `${baseURL}${image}`),
     };
-console.log(propertyWithFullImageURLs)
+
     res.status(200).json(propertyWithFullImageURLs);
   } catch (error) {
     console.error('Error fetching property:', error);
@@ -220,10 +224,8 @@ exports.updateUserDetails = async (req, res) => {
 
 exports.searchProperties = async (req, res) => {
   try {
-    const baseURL = 'http://127.0.0.1:8000'
+    const baseURL = `${process.env.BASE_URL}`
     
-    //console.log('Query Params:', req.query);
-
     const { minPrice, maxPrice, gender, location, furnished } = req.query;
 
     let query = {};
@@ -244,7 +246,6 @@ exports.searchProperties = async (req, res) => {
     if (furnished === 'true') {
       query.furnished = true; 
     }
-    console.log('Constructed Query:', query);
 
     const properties = await Property.find(query).select('name price location furnished genderAllowed occupancyType images').lean();
 
@@ -253,8 +254,6 @@ exports.searchProperties = async (req, res) => {
       image: property.images && property.images.length > 0 ? `${baseURL}${property.images[0]}` : null, // Add full URL for the first image
     }));
  
-    console.log('Filtered Properties:', properties);
-
    
     res.status(200).json({
       success: true,

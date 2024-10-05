@@ -54,7 +54,7 @@ exports.signUp = async (req, res) =>{
             subject: 'You have joined Pretoria Student Accommodation',
             text: `Good day ${user.name}
 
-You have successfully registered on Pretoria Student Accommodation. You can now Apply for accommodation. Visit to www.pretoriastudentaccommodation for more info
+You have successfully registered on Pretoria Student Accommodation. You can now Apply for accommodation. Visit to www.pretoriastudentaccommodation.com for more info
 
 Kind regards,
 Pretoria Student Accommodation Team`
@@ -102,7 +102,6 @@ exports.signIn = async (req, res)=>{
         const token = jwt.sign(payload, process.env.JWT_SECRET, {expiresIn:'5h'})
         const role = user.role
 
-        console.log('this user is a : ', role)
         res.status(200).json({
             status: 'success',
             token,
