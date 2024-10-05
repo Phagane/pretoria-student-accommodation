@@ -6,8 +6,8 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center mb-4">
           <div className="flex space-x-6">
-            <a href="/properties" className="hover:underline">
-              Properties
+            <a href="/" className="hover:underline">
+              Home
             </a>
             <a href="/about" className="hover:underline">
               About Us

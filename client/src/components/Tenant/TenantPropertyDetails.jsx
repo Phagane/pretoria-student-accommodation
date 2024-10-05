@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import CancelContractRequest from './CancelContractRequest';
 import UpdateTenantDetailsForm from './UpdateTenantDetailsForm ';
-
+import apiClient from '../../utils/apiClient';
 
 const TenantPropertyDetails = () => {
   const [isEditing, setIsEditing] = useState(false); 
@@ -13,12 +11,7 @@ const TenantPropertyDetails = () => {
   useEffect(() => {
     const fetchTenantDetails = async () => {
       try {
-        const token = localStorage.getItem('token'); 
-        const response = await axios.get('http://127.0.0.1:8000/api/v1/user/user-info', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await apiClient.get('/user/user-info');
         setTenantDetails(response.data);
       } catch (err) {
         setError('Failed to fetch tenant details.');
@@ -33,15 +26,9 @@ const TenantPropertyDetails = () => {
 
   const handleUpdate = async (updatedDetails) => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put(
-        'http://127.0.0.1:8000/api/v1/user/update-details',
-        updatedDetails,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await apiClient.put(
+        '/user/update-details',
+        updatedDetails  
       );
 
       setTenantDetails((prevDetails) => ({
@@ -101,17 +88,17 @@ const TenantPropertyDetails = () => {
       {/* Accommodation Details */}
       <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Accommodation Details</h2>
       <div className="space-y-2 text-gray-700">
-        <p><strong>Accommodation Name:</strong> {tenant?.propertyName}</p>
-        <p><strong>Location:</strong> {tenant?.location}</p>
-        <p><strong>Price:</strong> R{tenant?.price} /pm</p>
+        <p><strong>Accommodation Name:</strong> {tenant?.propertyName || 'N/A'}</p>
+        <p><strong>Location:</strong> {tenant?.location || 'N/A'}</p>
+        <p><strong>Price:</strong> R{tenant?.price  || '0'} /pm</p>
         <p><strong>Furnished:</strong> {tenant?.furnished ? 'Yes' : 'No'}</p>
       </div>
   
       {/* Lease Details */}
       <h2 className="text-2xl font-bold text-gray-800 mt-8 mb-4">Lease Details</h2>
       <div className="space-y-2 text-gray-700">
-        <p><strong>Room Number:</strong> {tenant?.roomNumber}</p>
-        <p><strong>Room Type:</strong> {tenant?.roomType}</p>
+        <p><strong>Room Number:</strong> {tenant?.roomNumber  || 'N/A'}</p>
+        <p><strong>Room Type:</strong> {tenant?.roomType  || 'N/A'}</p>
       </div>
   
       {/* Conditional component for cancel contract */}
