@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import apiClient from '../../utils/apiClient';
 
 const TenantTable = ({ propertyId, onTenantRemoved }) => {
   const [tenants, setTenants] = useState([]);
@@ -14,15 +14,7 @@ const TenantTable = ({ propertyId, onTenantRemoved }) => {
   useEffect(() => {
     const fetchTenants = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(
-          `http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}/tenants`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await apiClient.get(`/landlord/properties/${propertyId}/tenants`);
         setTenants(response.data.tenants);
         setLoading(false);
       } catch (err) {
@@ -44,15 +36,9 @@ const TenantTable = ({ propertyId, onTenantRemoved }) => {
 
   const handleSaveChanges = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put(
-        `http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}/tenants/${selectedTenant._id}`,
+      const response = await apiClient.put(
+        `/landlord/properties/${propertyId}/tenants/${selectedTenant._id}`,
         { roomNumber, roomType },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
       );
       if (response.status === 200) {
         setTenants((prevTenants) =>
@@ -79,14 +65,8 @@ const TenantTable = ({ propertyId, onTenantRemoved }) => {
         return;
       }
 
-      const token = localStorage.getItem('token');
-      const response = await axios.delete(
-        `http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}/tenants/${tenantId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await apiClient.delete(
+        `/landlord/properties/${propertyId}/tenants/${tenantId}`,
       );
       if (response.status === 200) {
         onTenantRemoved(tenantId);

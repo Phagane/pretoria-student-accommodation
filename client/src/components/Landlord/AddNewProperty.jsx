@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import apiClient from '../../utils/apiClient';
 
 const AddPropertyForm = ({ onSubmit, onCancel }) => {
   const [formData, setFormData] = useState({
@@ -55,15 +55,13 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
     }
 
     try {
-      const token = localStorage.getItem('token'); // Assuming JWT token is stored in localStorage
 
-      const response = await axios.post(
-        'http://127.0.0.1:8000/api/v1/landlord/addProperty',
+      const response = await apiClient.post(
+        '/landlord/addProperty',
         formDataToSubmit,
         {
           headers: {
             'Content-Type': 'multipart/form-data', // Set content type for form data
-            Authorization: `Bearer ${token}`,
           },
         }
       );

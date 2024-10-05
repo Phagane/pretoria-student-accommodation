@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import UpdatePropertyForm from './UpdatePropertyForm'; 
 import TenantTable from './TenantTable';
 import AddTenantButton from './AddTenantButton';
+import apiClient from '../../utils/apiClient';
 
 const ManageProperty = () => {
   const [property, setProperty] = useState(null);
@@ -15,12 +15,7 @@ const ManageProperty = () => {
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await apiClient.get(`/landlord/properties/${propertyId}`);
         setProperty(response.data);
         setLoading(false);
       } catch (err) {

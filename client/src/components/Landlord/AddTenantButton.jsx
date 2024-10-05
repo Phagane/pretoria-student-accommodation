@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate} from 'react-router-dom';
-
+import apiClient from '../../utils/apiClient';
 
 const AddTenantButton = ({ propertyId, onTenantAdded }) => {
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -21,12 +21,7 @@ const AddTenantButton = ({ propertyId, onTenantAdded }) => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem('token');
-      await axios.post(`http://127.0.0.1:8000/api/v1/landlord/add-tenant/${propertyId}`, tenantData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await apiClient.post(`landlord/add-tenant/${propertyId}`, tenantData);
       onTenantAdded(); // Refresh tenant list after adding a new tenant
       setIsFormOpen(false); // Close the form after submission
       setTenantData({ email: '', roomNumber: '', roomType: 'other' }); // Reset the form

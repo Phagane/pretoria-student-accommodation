@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import apiClient from '../../utils/apiClient';
 
 const UpdatePropertyForm = ({ propertyId, initialData, onClose, onUpdate }) => {
   const [formData, setFormData] = useState({
@@ -20,15 +20,10 @@ const UpdatePropertyForm = ({ propertyId, initialData, onClose, onUpdate }) => {
   const handleFormSubmit = async () => {
    
     try {
-      const token = localStorage.getItem('token');
-      const response = await axios.put(
-        `http://127.0.0.1:8000/api/v1/landlord/properties/${propertyId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      
+      const response = await apiClient.put(
+        `/landlord/properties/${propertyId}`,
+        formData
       );
       onUpdate(response.data.updatedProperty); 
       onClose();
