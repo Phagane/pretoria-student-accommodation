@@ -244,7 +244,7 @@ const AddPropertyForm = ({ onSubmit, onCancel }) => {
 
         {/* Image Upload */}
         <div className="mb-4">
-          <label className="block text-gray-700 mb-2">Upload Images (Max 5)</label>
+          <label className="block text-gray-700 mb-2">Upload Images (Max 6)</label>
           <input
             type="file"
             name="images"
