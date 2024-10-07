@@ -41,7 +41,9 @@ exports.signUp = async (req, res) =>{
         await user.save()
     
         const sender = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'mail.pretoriastudentaccommodation.co.za',
+            port: 587,
+            secure: false,
             auth: {
                 user: process.env.EMAIL_ADDRESS,
                 pass: process.env.EMAIL_PASSWORD,

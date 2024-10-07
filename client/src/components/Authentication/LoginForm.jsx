@@ -32,6 +32,7 @@ const LoginForm = () => {
     } catch (err) {
       console.error(err);
       setError('Wrong username or password');
+      console.log(baseUrl)
     }
   };
 

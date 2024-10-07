@@ -1,7 +1,8 @@
 {
   "name": "pretoria-student-accommodation",
-  "version": "0.1.0",
+  "version": "1.1.1",
   "private": true,
+  "homepage": "https://web.pretoriastudentaccommodation.co.za",
   "dependencies": {
     "@react-google-maps/api": "^2.19.3",
     "@testing-library/jest-dom": "^5.17.0",

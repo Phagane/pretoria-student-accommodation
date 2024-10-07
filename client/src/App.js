@@ -13,6 +13,8 @@ import ManageProperty from './components/Landlord/ManageProperty';
 import Notifications from './components/Notification/Notifications';
 import AboutUs from './components/AboutUs/AboutUs';
 import SearchResults from './components/Homepage/SearchResults';
+import ContactUs from './components/ContactUs/ContactUs';
+import FAQ from './components/FAQ/FAQ';
 
 
 const App = () => {
@@ -44,6 +46,8 @@ const App = () => {
           <Route path='/notifications' element={<Notifications />} />
           <Route path='/signin' element={<LoginForm />} />
           <Route path='/signup' element={<SignupForm />} />
+          <Route path="/contact" element={<ContactUs />} />
+          <Route path='/faq' element={<FAQ />} />
         </Routes>
       </main>
       {!isExcludedPage && <Footer />}

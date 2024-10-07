@@ -25,10 +25,12 @@ const SearchBar = () => {
 
 
   return (
-    <div
-      className="relative w-full bg-cover bg-center "
-      style={{ backgroundImage: "url('bg.jpg')" }}
-    >
+    <div className="relative w-full">
+      <img
+      src="bg2.jpg"
+      alt="Background"
+      className="absolute inset-0 w-full h-full object-cover"
+    />
       <div className="absolute inset-0 bg-black opacity-50"></div>
 
       <div className="relative container mx-auto p-4 max-w-3xl mt-0">
