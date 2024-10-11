@@ -12,17 +12,15 @@ const PropertyDetails = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [showFullScreen, setShowFullScreen] = useState(false); // To track full-screen mode
   const [showViewingForm, setShowViewingForm] = useState(false);
   const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   const userRole = localStorage.getItem('role')
 
   useEffect(() => {
-    
     const fetchProperty = async () => {
-
       const baseUrl = process.env.REACT_APP_API_URL;
-
       try {
         const response = await axios.get(`${baseUrl}/user/property/${id}`);
         setProperty(response.data);
@@ -32,7 +30,6 @@ const PropertyDetails = () => {
         setLoading(false);
       }
     };
-
     fetchProperty();
   }, [id]);
 
@@ -59,6 +56,17 @@ const PropertyDetails = () => {
     setCurrentImageIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length);
   };
 
+  const toggleFullScreen = () => {
+    setShowFullScreen((prev) => !prev);
+  };
+
+  const handleCloseFullScreen = (e) => {
+    // Close the full-screen when clicking outside the image
+    if (e.target.className.includes('fullscreen-overlay')) {
+      setShowFullScreen(false);
+    }
+  };
+
   const toggleViewingForm = () => {
     setShowViewingForm((prevShow) => !prevShow);
   };
@@ -79,7 +87,8 @@ const PropertyDetails = () => {
               <img
                 src={images[currentImageIndex]}
                 alt={`${property.name}${currentImageIndex + 1}`}
-                className="w-full h-80 object-cover"
+                className="w-full h-80 object-cover cursor-pointer"
+                onClick={toggleFullScreen}
               />
               <button
                 onClick={handlePrevImage}
@@ -128,7 +137,41 @@ const PropertyDetails = () => {
           )}
         </div>
       </div>
-      <GoogleMapComponent location={{ latitude: property.latitude , longitude: property.longitude}} />
+
+      {showFullScreen && (
+        <div
+          className="fullscreen-overlay fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={handleCloseFullScreen}
+        >
+          <div className="relative">
+            <img
+              src={images[currentImageIndex]}
+              alt={`${property.name} Fullscreen`}
+              className="max-w-full max-h-screen object-cover"
+            />
+            <button
+              onClick={handlePrevImage}
+              className="absolute top-1/2 left-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
+            >
+              &#8249;
+            </button>
+            <button
+              onClick={handleNextImage}
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 bg-violet-700 text-white p-2 rounded-full"
+            >
+              &#8250;
+            </button>
+            <button
+              onClick={() => setShowFullScreen(false)}
+              className="absolute top-4 right-4 bg-violet-700 text-white p-2 rounded-full"
+            >
+              &times;
+            </button>
+          </div>
+        </div>
+      )}
+
+      <GoogleMapComponent location={{ latitude: property.latitude, longitude: property.longitude }} />
       <LandLordDetails agent={property.agent} />
     </div>
   );

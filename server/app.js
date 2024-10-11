@@ -40,9 +40,9 @@ app.get('/', (req, res)=>{
 })
 app.options('*', cors())
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use('/api/v1/auth', authRouter)
-app.use('/api/v1/landlord', landlordRouter)
-app.use('/api/v1/user', userRouter)
+app.use('/auth', authRouter)
+app.use('/landlord', landlordRouter)
+app.use('/user', userRouter)
 
 const port = process.env.PORT
 
