@@ -63,11 +63,12 @@ const FeaturedProperties = () => {
                       View Property
                     </button>
                   </Link>
+                  
                   <a
-                    href={`https://wa.me/?888888?text=I'm%20interested%20in%20the%20property%20$${property.name}`} // WhatsApp link
+                    href={`https://wa.me/+27${property.agent.phoneNum}?text="Good Day, I would like to enquire about ${property.name}"`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-green-600 hover:text-green-800 ml-2" // Add a smaller left margin
+                    className="text-green-600 hover:text-green-800 ml-2"
                   >
                     <FaWhatsapp size={28} /> {/* Increase icon size */}
                   </a>
