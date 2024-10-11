@@ -27,7 +27,7 @@ const Notifications = () => {
         });
         setLoading(false);
       } catch (err) {
-        setError('Failed to fetch notifications');
+        setError('Notifications unavailable, please add a property to see notifications');
         setLoading(false);
       }
     };
@@ -113,7 +113,11 @@ const Notifications = () => {
   }
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return (
+      <div>
+        <h2 className="text-2xl font-semibold mb-6 text-gray-800">{error}</h2>
+      </div>
+    )
   }
 
   return (
