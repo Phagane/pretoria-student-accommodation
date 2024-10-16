@@ -15,7 +15,7 @@ import AboutUs from './components/AboutUs/AboutUs';
 import SearchResults from './components/Homepage/SearchResults';
 import ContactUs from './components/ContactUs/ContactUs';
 import FAQ from './components/FAQ/FAQ';
-
+import LandlordApplication from './components/LandlordApplication/LandlordApplication';
 
 const App = () => {
   const exampleTenantId = 1; // Tenant email
@@ -43,7 +43,10 @@ const App = () => {
             element={<ProtectedRoute><TenantDashboard />
           </ProtectedRoute>} />
           <Route path='/about' element={<AboutUs />} />
-          <Route path='/notifications' element={<Notifications />} />
+          <Route path='/notifications' element={<ProtectedRoute><Notifications />
+          </ProtectedRoute>} />
+          <Route path='/landlord-application' element={<ProtectedRoute><LandlordApplication />
+          </ProtectedRoute>} />
           <Route path='/signin' element={<LoginForm />} />
           <Route path='/signup' element={<SignupForm />} />
           <Route path="/contact" element={<ContactUs />} />

@@ -8,14 +8,9 @@ const SignupForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [role, setRole] = useState('tenant');
   const [error, setError] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
   const navigate = useNavigate()
-
-  const handleUserTypeChange = (event) => {
-    setRole(event.target.value);
-  };
 
   const handleSignup = async (event) => {
     event.preventDefault();
@@ -33,7 +28,6 @@ const SignupForm = () => {
         email,
         password,
         confirmPassword,
-        role,
         phoneNumber,
       });
 
@@ -117,18 +111,6 @@ const SignupForm = () => {
               placeholder="Confirm password"
               required
             />
-          </div>
-          <div>
-            <label htmlFor="role" className="block text-sm font-medium text-gray-600">Sign Up As</label>
-            <select
-              id="role"
-              value={role}
-              onChange={handleUserTypeChange}
-              className="w-full px-3 py-2 mt-1 border rounded-md focus:outline-none focus:ring focus:ring-blue-300"
-            >
-              <option value="tenant">Tenant</option>
-              <option value="landlord">Landlord</option>
-            </select>
           </div>
           <button
             type="submit"

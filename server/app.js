@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const morgan = require('morgan')
 const dotenv = require('dotenv')
 const cors = require('cors')
-const path = require('path');
+const path = require('path')
 const authRouter = require('./routes/authRouter')
 const landlordRouter = require('./routes/landlordRouter')
 const userRouter = require('./routes/userRouter')
@@ -22,7 +22,6 @@ app.use(cors({
     credentials:true
 }))
 
-console.log("connection string",process.env.DATABASE)
 const DB = process.env.DATABASE.replace('<db_password>', process.env.DATABASE_PASSWORD)
 
 mongoose.connect(DB, {
