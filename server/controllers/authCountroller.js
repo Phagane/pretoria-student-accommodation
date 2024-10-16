@@ -7,7 +7,7 @@ const nodemailer = require('nodemailer')
 dotenv.config({path: './../config/config.env'})
 
 exports.signUp = async (req, res) =>{
-    const {email, name, role, phoneNumber, password, confirmPassword} = req.body
+    const {email, name, phoneNumber, password, confirmPassword} = req.body
 
     if(password !== confirmPassword){
         return(
@@ -34,7 +34,7 @@ exports.signUp = async (req, res) =>{
             email,
             password: hashedPassword,
             name: name,
-            role: role,
+            role: 'tenant',
             phoneNumber: phoneNumber,
         })
     
@@ -56,7 +56,7 @@ exports.signUp = async (req, res) =>{
             subject: 'You have joined Pretoria Student Accommodation',
             text: `Good day ${user.name}
 
-You have successfully registered on Pretoria Student Accommodation. You can now Apply for accommodation. Visit to www.pretoriastudentaccommodation.com for more info
+You have successfully registered on Pretoria Student Accommodation. You can now Apply for accommodation. Visit to web.pretoriastudentaccommodation.com for more info
 
 Kind regards,
 Pretoria Student Accommodation Team`
