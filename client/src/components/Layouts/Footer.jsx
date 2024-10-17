@@ -11,7 +11,7 @@ const Footer = () => {
             </a>
             <a href="/about" className="hover:underline">
               About Us
-            </a>
+            </a> 
             <a href="/contact" className="hover:underline">
               Contact
             </a>
@@ -28,4 +28,4 @@ const Footer = () => {
   );
 };
 
-export default Footer;//footer
+export default Footer;//Footer
