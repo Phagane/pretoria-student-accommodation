@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';//Part of the layout.
+import React, { useState, useEffect } from 'react';//Part of the layout
 import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
