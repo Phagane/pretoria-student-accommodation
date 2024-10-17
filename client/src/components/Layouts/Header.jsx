@@ -84,7 +84,7 @@ const Header = () => {
         </nav>
 
         {/* Mobile for Menu */}
-        
+
         {isMenuOpen && (
           <nav className="lg:hidden fixed top-0 right-0 w-64 h-full bg-white shadow-md z-50 flex flex-col py-4 px-6 space-y-4">
             <button
@@ -127,4 +127,4 @@ const Header = () => {
   );
 };
 
-export default Header;
+export default Header;//header
