@@ -1,4 +1,4 @@
-import React from 'react';//zz
+import React from 'react';//z
 
 
 const LandlordApplication = () => {
