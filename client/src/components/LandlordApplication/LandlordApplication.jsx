@@ -1,4 +1,4 @@
-import React from 'react';//mm
+import React from 'react';
 
 const LandlordApplication = () => {
   return (
