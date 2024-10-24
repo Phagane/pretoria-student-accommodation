@@ -5,10 +5,7 @@ const AddNewTenant = ({ onClose, onAddTenant }) => {
     name: '',
     email: '',
     phone: '',
-    roomNumber: '',
-    roomType: '',
-    leaseStartDate: '',
-    leaseEndDate: '',
+
   });
 
   const handleInputChange = (e) => {
