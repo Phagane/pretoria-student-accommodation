@@ -38,7 +38,7 @@ const Notifications = () => {
   const openAcceptForm = (applicantId, propertyId) => {
     setSelectedApplicantId(applicantId);
     setSelectedPropertyId(propertyId);
-    setIsFormVisible(true); 
+    setIsFormVisible(false); 
   };
 
   const handleSubmit = async (e) => {
